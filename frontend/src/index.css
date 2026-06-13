@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --teal:      #0f766e;
+  --teal-dark: #0d5c56;
+  --teal-mid:  #14b8a6;
+  --mint:      #e6f7f5;
+  --mint-deep: #ccefeb;
+  --ink:       #0f1f1d;
+  --ink-2:     #1e3532;
+  --muted:     #5a7975;
+  --line:      #d4e5e2;
+  --card:      #ffffff;
+  --bg:        #f4faf9;
+  --bg-dark:   #0d1a18;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Scrollbar halus */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--teal-mid); }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Animasi smooth */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.animate-fade-up  { animation: fadeUp 0.35s ease both; }
+.animate-pulse-soft { animation: pulse-soft 1.8s ease infinite; }
+.animate-spin { animation: spin 0.75s linear infinite; }
+
+/* Transisi global */
+button, a, input, textarea, select {
+  transition: all 0.15s ease;
+}
