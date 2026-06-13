@@ -19,10 +19,10 @@ export default function InputPanel({ onSubmit, loading }) {
     <div className="bg-white border border-[#d4e5e2] rounded-2xl p-6 shadow-sm">
       {/* Label */}
       <div className="flex items-center justify-between mb-3">
-        <label className="text-xs font-semibold uppercase tracking-widest text-[#5a7975]">
+        <label className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#41514d]">
           Teks Aduan
         </label>
-        <span className="text-[11px] text-[#5a7975] font-mono bg-[#f4faf9] px-2 py-0.5 rounded border border-[#d4e5e2]">
+        <span className="text-[12.5px] text-[#41514d] font-mono font-medium bg-[#f4faf9] px-2.5 py-1 rounded border border-[#d4e5e2]">
           {teks.length} karakter
         </span>
       </div>
@@ -34,12 +34,12 @@ export default function InputPanel({ onSubmit, loading }) {
         onKeyDown={onKey}
         placeholder="Ketik atau tempel teks aduan layanan publik di sini…"
         rows={6}
-        className="w-full resize-y border border-[#d4e5e2] rounded-xl p-4 text-[15px] bg-[#f4faf9] text-[#0f1f1d] leading-relaxed outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/15 transition placeholder-[#94b5b0]"
+        className="w-full resize-y border border-[#d4e5e2] rounded-xl p-4 text-[15.5px] bg-[#f4faf9] text-[#0f1f1d] leading-relaxed outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/15 transition placeholder-[#6b827d]"
       />
 
       {/* Contoh */}
       <div className="mt-4">
-        <div className="text-[11px] text-[#5a7975] font-medium mb-2 uppercase tracking-wider">
+        <div className="text-[12px] text-[#41514d] font-semibold mb-2 uppercase tracking-[0.1em]">
           Contoh aduan:
         </div>
         <div className="flex flex-col gap-1.5">
@@ -47,7 +47,7 @@ export default function InputPanel({ onSubmit, loading }) {
             <button
               key={i}
               onClick={() => setTeks(c)}
-              className="text-left text-[12px] text-[#0f766e] bg-[#f0fdfa] hover:bg-[#ccefeb] border border-[#ccefeb] rounded-lg px-3 py-2 transition-colors leading-snug"
+              className="text-left text-[13px] text-[#0f766e] bg-[#f0fdfa] hover:bg-[#ccefeb] border border-[#ccefeb] rounded-lg px-3 py-2 transition-colors leading-snug"
             >
               "{c}"
             </button>
@@ -59,7 +59,7 @@ export default function InputPanel({ onSubmit, loading }) {
       <button
         onClick={submit}
         disabled={loading}
-        className="mt-5 w-full bg-[#0f766e] hover:bg-[#0d5c56] disabled:opacity-50 text-white rounded-xl py-3.5 text-[14px] font-semibold transition-colors flex items-center justify-center gap-2.5 shadow-md shadow-[#0f766e]/20"
+        className="mt-5 w-full bg-[#0f766e] hover:bg-[#0d5c56] disabled:opacity-50 text-white rounded-xl py-3.5 text-[15px] font-semibold transition-colors flex items-center justify-center gap-2.5 shadow-md shadow-[#0f766e]/20"
       >
         {loading ? (
           <>
@@ -76,7 +76,7 @@ export default function InputPanel({ onSubmit, loading }) {
           </>
         )}
       </button>
-      <div className="mt-2.5 text-[11px] text-[#94b5b0] text-center">
+      <div className="mt-3 text-[12.5px] text-[#5a7975] font-medium text-center">
         Ctrl + Enter untuk klasifikasi cepat
       </div>
     </div>
