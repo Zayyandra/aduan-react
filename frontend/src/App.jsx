@@ -56,11 +56,11 @@ export default function App() {
       {/* Classifier App (ASLI - tidak diubah) */}
       <section id="app-section" className="max-w-[1180px] w-full mx-auto px-6 py-16">
         <div className="mb-10 text-center">
-          <span className="inline-block text-[12px] font-semibold tracking-[0.18em] text-[#0f766e] bg-[#e6f7f5] px-4 py-2 rounded-full mb-4 uppercase font-mono">
+          <span className="inline-block text-[13px] font-semibold tracking-[0.1em] text-[#0b5a54] bg-[#e6f7f5] px-4 py-2 rounded-full mb-4 uppercase font-mono">
             Klasifikasi Otomatis
           </span>
           <h2 className="text-3xl font-extrabold text-[#0f1f1d] mb-2">Analisis Aduan Masyarakat</h2>
-          <p className="text-[#516662] max-w-xl mx-auto text-[15px]">
+          <p className="text-[#475467] max-w-xl mx-auto text-[15px] font-medium">
             Masukkan teks aduan berbahasa Indonesia. Sistem akan menentukan kategori layanan publik dan sentimen secara otomatis.
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function App() {
           <div className="text-[13.5px] text-[#516662] text-center">
             © 2025/2026 · Project Akhir Praktikum NLP · Politeknik Caltex Riau · Kelompok 3
           </div>
-          <div className="flex gap-4 text-[13px] text-[#5a7975]">
+          <div className="flex gap-4 text-[14px] text-[#41514d]">
             <button onClick={() => setModal("cara")} className="hover:text-[#0f766e] transition-colors">Cara Kerja</button>
             <button onClick={() => setModal("faq")} className="hover:text-[#0f766e] transition-colors">FAQ</button>
             <button onClick={() => setModal("tentang")} className="hover:text-[#0f766e] transition-colors">Tentang</button>

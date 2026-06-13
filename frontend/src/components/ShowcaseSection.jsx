@@ -10,9 +10,9 @@ export default function ShowcaseSection() {
     <section id="contoh" className="py-[78px]">
       <div className="max-w-[1180px] mx-auto px-6">
         <div className="text-center max-w-[620px] mx-auto mb-12">
-          <div className="font-mono text-[12px] tracking-[0.18em] uppercase font-semibold text-[#0f766e]">Contoh Hasil</div>
+          <div className="font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Contoh Hasil</div>
           <h2 className="text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3">Seperti Apa Hasilnya?</h2>
-          <p className="text-[#516662] text-[16px]">Beberapa aduan nyata beserta kategori dan sentimen yang diprediksi sistem.</p>
+          <p className="text-[#475467] text-[16px] font-medium">Beberapa aduan nyata beserta kategori dan sentimen yang diprediksi sistem.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">

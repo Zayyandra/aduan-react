@@ -19,7 +19,7 @@ export default function HeroSection({ onStart }) {
         <div>
           <div className="inline-flex items-center gap-2 border border-[#ccefeb] bg-[#e6f7f5] rounded-full px-4 py-2 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#0f766e]" />
-            <span className="text-[#0f766e] text-[12px] font-semibold tracking-[0.16em] uppercase font-mono">
+            <span className="text-[#0b5a54] text-[13px] font-semibold tracking-[0.1em] uppercase font-mono">
               Praktikum NLP · Politeknik Caltex Riau
             </span>
           </div>
@@ -29,7 +29,7 @@ export default function HeroSection({ onStart }) {
             <span className="text-[#0f766e]">Layanan Publik</span> Otomatis
           </h1>
 
-          <p className="text-[#516662] text-[17px] leading-relaxed max-w-[510px] mb-[30px]">
+          <p className="text-[#475467] text-[17px] leading-relaxed max-w-[510px] mb-[30px]">
             Sistem NLP berbahasa Indonesia yang memetakan cuitan pengaduan ke 6 bidang layanan publik
             dan mendeteksi sentimennya — ditenagai transformer IndoBERT.
           </p>

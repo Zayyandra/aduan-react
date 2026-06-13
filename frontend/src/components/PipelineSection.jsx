@@ -11,9 +11,9 @@ export default function PipelineSection() {
     <section id="pipeline" className="py-[78px]">
       <div className="max-w-[1180px] mx-auto px-6">
         <div className="text-center max-w-[620px] mx-auto mb-12">
-          <div className="font-mono text-[12px] tracking-[0.18em] uppercase font-semibold text-[#0f766e]">Arsitektur Sistem</div>
+          <div className="font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Arsitektur Sistem</div>
           <h2 className="text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3">Pipeline Klasifikasi</h2>
-          <p className="text-[#516662] text-[16px]">Lima tahap dari pengumpulan data X hingga inferensi, dengan catatan metodologi yang transparan.</p>
+          <p className="text-[#475467] text-[16px] font-medium">Lima tahap dari pengumpulan data X hingga inferensi, dengan catatan metodologi yang transparan.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">

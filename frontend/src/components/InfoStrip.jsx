@@ -20,9 +20,9 @@ export default function InfoStrip() {
   return (
     <div className="mt-12">
       <div className="text-center max-w-[620px] mx-auto mb-12">
-        <div className="font-mono text-[12px] tracking-[0.18em] uppercase font-semibold text-[#0f766e]">Statistik Dataset</div>
+        <div className="font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Statistik Dataset</div>
         <h2 className="text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3">Mengenal Data Pelatihan</h2>
-        <p className="text-[#516662] text-[16px]">Dikumpulkan mandiri dari X (Twitter) via tweet-harvest, lalu disaring bertingkat dan dilabeli leksikon.</p>
+        <p className="text-[#475467] text-[16px] font-medium">Dikumpulkan mandiri dari X (Twitter) via tweet-harvest, lalu disaring bertingkat dan dilabeli leksikon.</p>
       </div>
 
       <div className="grid lg:grid-cols-[1.25fr_1fr] gap-5">

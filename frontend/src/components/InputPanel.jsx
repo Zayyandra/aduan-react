@@ -19,7 +19,7 @@ export default function InputPanel({ onSubmit, loading }) {
     <div className="bg-white border border-[#d4e5e2] rounded-2xl p-6 shadow-sm">
       {/* Label */}
       <div className="flex items-center justify-between mb-3">
-        <label className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#41514d]">
+        <label className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#3a4a46]">
           Teks Aduan
         </label>
         <span className="text-[12.5px] text-[#41514d] font-mono font-medium bg-[#f4faf9] px-2.5 py-1 rounded border border-[#d4e5e2]">
@@ -39,7 +39,7 @@ export default function InputPanel({ onSubmit, loading }) {
 
       {/* Contoh */}
       <div className="mt-4">
-        <div className="text-[12px] text-[#41514d] font-semibold mb-2 uppercase tracking-[0.1em]">
+        <div className="text-[13px] text-[#3a4a46] font-semibold mb-2 uppercase tracking-[0.06em]">
           Contoh aduan:
         </div>
         <div className="flex flex-col gap-1.5">

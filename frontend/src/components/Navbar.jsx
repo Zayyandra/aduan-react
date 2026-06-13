@@ -26,8 +26,8 @@ export default function Navbar({ onModal }) {
         {/* Badge + CTA */}
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-2 bg-[#e6f7f5] border border-[#ccefeb] rounded-full px-3.5 py-2">
-            <span className="w-2 h-2 rounded-full bg-[#0f766e] animate-pulse-soft" />
-            <span className="text-[12.5px] font-semibold font-mono text-[#0f766e]">akurasi 90,52%</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0f766e] animate-pulse-soft" />
+            <span className="text-[13.5px] font-semibold font-mono text-[#0b5a54]">akurasi 90,52%</span>
           </div>
           <a href="#app-section"
             className="bg-[#0f766e] text-white text-[14px] font-semibold px-[18px] py-2.5 rounded-lg hover:bg-[#0d5c56] transition-colors">

@@ -58,7 +58,7 @@ export default function DemoCard() {
 
       {/* body */}
       <div className="p-6">
-        <div className="text-[#7d918d] font-mono text-[11.5px] font-semibold tracking-[0.12em] uppercase mb-2.5">Teks aduan</div>
+        <div className="text-[#516662] font-mono text-[12.5px] font-semibold tracking-[0.08em] uppercase mb-2.5">Teks aduan</div>
         <div className="text-[#0f1f1d] text-[16px] leading-relaxed min-h-[54px] bg-[#f4faf9] border border-[#d4e5e2] border-l-[3px] border-l-[#0f766e] rounded-[10px] px-4 py-3.5">
           {typed}
           <span className="inline-block w-2 h-[18px] bg-[#14b8a6] ml-0.5 align-[-3px] animate-pulse-soft" />
