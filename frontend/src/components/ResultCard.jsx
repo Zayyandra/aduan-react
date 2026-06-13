@@ -26,7 +26,7 @@ function SentimenBadge({ sentimen, detail }) {
 
   return (
     <div className="mb-5">
-      <div className="text-[12px] uppercase tracking-[0.12em] text-[#41514d] font-semibold mb-2">Sentimen</div>
+      <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-2">Sentimen</div>
       <div className="flex items-center gap-3 flex-wrap">
         <button
           onClick={() => setShowDetail((v) => !v)}
@@ -94,7 +94,7 @@ export default function ResultCard({ hasil, teksInput }) {
       {/* Header */}
       <div className="flex items-start justify-between gap-4 pb-5 border-b border-line mb-5">
         <div className="min-w-0">
-          <div className="text-[12px] uppercase tracking-[0.12em] text-[#41514d] font-semibold mb-1">Hasil Prediksi</div>
+          <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-1">Hasil Prediksi</div>
           <div className="font-extrabold text-3xl capitalize leading-none" style={{ color: meta.warna }}>
             {hasil.kategori}
           </div>
@@ -129,7 +129,7 @@ export default function ResultCard({ hasil, teksInput }) {
       {/* Kata kunci */}
       {pemicu.length > 0 && (
         <div className="mb-5">
-          <div className="text-[12px] uppercase tracking-[0.12em] text-[#41514d] font-semibold mb-2">Kata kunci terdeteksi</div>
+          <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-2">Kata kunci terdeteksi</div>
           <div className="flex flex-wrap gap-2">
             {pemicu.map((k) => (
               <span key={k} className="text-[13px] rounded-md px-2.5 py-1 font-medium" style={{ background: meta.warna + "1a", color: meta.warna }}>{k}</span>
@@ -139,7 +139,7 @@ export default function ResultCard({ hasil, teksInput }) {
       )}
 
       {/* Distribusi probabilitas */}
-      <div className="text-[12px] uppercase tracking-[0.12em] text-[#41514d] font-semibold mb-3">Distribusi probabilitas</div>
+      <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-3">Distribusi probabilitas</div>
       <div className="flex flex-col gap-3">
         {entries.map(([label, skor]) => {
           const m = KATEGORI[label] || { warna: "#999" };

@@ -98,7 +98,7 @@ export default function App() {
               <div className="text-[12px] text-[#5a7975]">Sistem Klasifikasi Aduan · IndoBERT</div>
             </div>
           </div>
-          <div className="text-[13px] text-[#5a7975] text-center">
+          <div className="text-[13.5px] text-[#516662] text-center">
             © 2025/2026 · Project Akhir Praktikum NLP · Politeknik Caltex Riau · Kelompok 3
           </div>
           <div className="flex gap-4 text-[13px] text-[#5a7975]">
