@@ -10,18 +10,20 @@ export default function ShowcaseSection() {
     <section id="contoh" className="py-[78px]">
       <div className="max-w-[1180px] mx-auto px-6">
         <div className="text-center max-w-[620px] mx-auto mb-12">
-          <div className="font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Contoh Hasil</div>
-          <h2 className="text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3">Seperti Apa Hasilnya?</h2>
-          <p className="text-[#475467] text-[16px] font-medium">Beberapa aduan nyata beserta kategori dan sentimen yang diprediksi sistem.</p>
+          <div className="reveal font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Contoh Hasil</div>
+          <h2 className="reveal text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3" style={{ transitionDelay:"0.08s" }}>Seperti Apa Hasilnya?</h2>
+          <p className="reveal text-[#475467] text-[16px] font-medium" style={{ transitionDelay:"0.16s" }}>Beberapa aduan nyata beserta kategori dan sentimen yang diprediksi sistem.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="stagger-parent grid md:grid-cols-2 gap-4">
           {ITEMS.map((it, i) => (
-            <div key={i} className="bg-white border border-[#d4e5e2] rounded-[15px] p-5 border-l-4 shadow-[0_1px_2px_rgba(15,33,30,0.03)]" style={{ borderLeftColor: it.cc }}>
+            <div key={i}
+              className="reveal card-lift bg-white border border-[#d4e5e2] rounded-[15px] p-5 border-l-4 shadow-sm"
+              style={{ borderLeftColor: it.cc, transitionDelay: `${i * 0.1}s` }}>
               <p className="text-[15.5px] leading-relaxed text-[#0f1f1d] mb-4">"{it.q}"</p>
               <div className="flex gap-2 items-center flex-wrap">
-                <span className="font-mono text-[12.5px] font-semibold px-3 py-1.5 rounded-md tracking-[0.03em]" style={{ background: it.cbg, color: it.cc }}>{it.cat} · {it.conf}%</span>
-                <span className="font-mono text-[12.5px] font-semibold px-3 py-1.5 rounded-md tracking-[0.03em]" style={{ background: it.sbg, color: it.scol }}>{it.senti}</span>
+                <span className="font-mono text-[12.5px] font-semibold px-3 py-1.5 rounded-md" style={{ background:it.cbg, color:it.cc }}>{it.cat} · {it.conf}%</span>
+                <span className="font-mono text-[12.5px] font-semibold px-3 py-1.5 rounded-md" style={{ background:it.sbg, color:it.scol }}>{it.senti}</span>
               </div>
             </div>
           ))}
