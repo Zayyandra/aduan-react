@@ -1,18 +1,15 @@
 export default function Navbar({ onModal }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-[#dde5ef] bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-[#d4e5e2] bg-[#f4faf9]/90 backdrop-blur-md">
       <div className="max-w-[1180px] mx-auto px-6 h-[68px] flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <span className="w-[40px] h-[40px] rounded-[9px] bg-[#1e3a5f] text-white flex items-center justify-center select-none shadow-[0_4px_12px_-4px_rgba(30,58,95,0.5)]">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5z" />
-              <path d="M9 13.5h6M9 10h6M12 17V8.5" />
-            </svg>
+          <span className="w-[38px] h-[38px] rounded-[10px] bg-gradient-to-br from-[#0f766e] to-[#14b8a6] text-white flex items-center justify-center font-extrabold text-[16px] select-none shadow-[0_6px_16px_-6px_rgba(15,118,110,0.5)]">
+            A
           </span>
           <div>
-            <div className="font-extrabold text-[16px] text-[#14233b] leading-tight">AduanNLP</div>
-            <div className="text-[12px] text-[#5a6b80] leading-tight">Klasifikasi Pengaduan · IndoBERT</div>
+            <div className="font-extrabold text-[16px] text-[#0f1f1d] leading-tight">AduanNLP</div>
+            <div className="text-[12px] text-[#5a7975] leading-tight">Klasifikasi Pengaduan · IndoBERT</div>
           </div>
         </div>
 
@@ -20,7 +17,7 @@ export default function Navbar({ onModal }) {
         <nav className="hidden md:flex items-center gap-1">
           {[["cara", "Cara Kerja"], ["faq", "FAQ"], ["tentang", "Tentang"]].map(([id, label]) => (
             <button key={id} onClick={() => onModal(id)}
-              className="text-[14px] text-[#3a4a60] hover:text-[#1e3a5f] px-3.5 py-2 rounded-lg hover:bg-[#eef2f7] transition-colors font-medium">
+              className="text-[14px] text-[#41514d] hover:text-[#0f766e] px-3.5 py-2 rounded-lg hover:bg-[#e6f7f5] transition-colors font-medium">
               {label}
             </button>
           ))}
@@ -28,12 +25,12 @@ export default function Navbar({ onModal }) {
 
         {/* Badge + CTA */}
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 bg-[#fbf4e0] border border-[#efdca8] rounded-full px-3.5 py-2">
-            <span className="w-2 h-2 rounded-full bg-[#d4a017]" />
-            <span className="text-[13px] font-semibold font-mono text-[#8a6608]">akurasi 90,52%</span>
+          <div className="hidden sm:flex items-center gap-2 bg-[#e6f7f5] border border-[#ccefeb] rounded-full px-3.5 py-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0f766e] animate-pulse-soft" />
+            <span className="text-[13.5px] font-semibold font-mono text-[#0b5a54]">akurasi 74,50%</span>
           </div>
           <a href="#app-section"
-            className="bg-[#1e3a5f] text-white text-[14px] font-semibold px-[18px] py-2.5 rounded-lg hover:bg-[#15293f] transition-colors">
+            className="bg-[#0f766e] text-white text-[14px] font-semibold px-[18px] py-2.5 rounded-lg hover:bg-[#0d5c56] transition-colors">
             Mulai
           </a>
         </div>
