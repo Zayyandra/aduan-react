@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 const CONTOH = [
-  "Sudah sebulan tidak ada petugas yang datang bersihin got",
-  "Anakku tidak bisa daftar sekolah padahal nilainya bagus",
-  "Setiap pagi macet parah, angkutan umum tidak memadai",
+  "Aplikasi Mobile JKN error terus, tidak bisa cek status BPJS",
+  "PPDB online bermasalah, anak saya tidak bisa daftar sekolah negeri",
+  "KRL selalu telat dan penuh sesak setiap pagi hari kerja",
 ];
 
 export default function InputPanel({ onSubmit, loading }) {

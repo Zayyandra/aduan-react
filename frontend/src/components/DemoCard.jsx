@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
 const CASES = [
-  { t: "Jalan di depan rumah berlubang parah belum diperbaiki", cat: "Infrastruktur", color: "#15803d", conf: 99, senti: "NEGATIF", sc: "#b91c1c", sb: "#fef2f2" },
-  { t: "Antrian BPJS di puskesmas lama banget pelayanannya", cat: "Kesehatan", color: "#be123c", conf: 85, senti: "NEGATIF", sc: "#b91c1c", sb: "#fef2f2" },
-  { t: "Petugas rajin angkut sampah, lingkungan jadi bersih", cat: "Kebersihan", color: "#6d28d9", conf: 96, senti: "POSITIF", sc: "#15803d", sb: "#f0fdf4" },
-  { t: "Bus transjakarta penuh sesak tiap pagi", cat: "Transportasi", color: "#1d4ed8", conf: 99, senti: "NEGATIF", sc: "#b91c1c", sb: "#fef2f2" },
+  { t: "Aplikasi BPJS sering error pas mau bayar iuran", cat: "Kesehatan", color: "#be123c", conf: 76, senti: "NEGATIF", sc: "#b91c1c", sb: "#fef2f2" },
+  { t: "Jalan depan kantor kecamatan berlubang parah", cat: "Infrastruktur", color: "#15803d", conf: 83, senti: "NEGATIF", sc: "#b91c1c", sb: "#fef2f2" },
+  { t: "Petugas sampah rajin setiap hari, lingkungan bersih", cat: "Kebersihan", color: "#6d28d9", conf: 72, senti: "POSITIF", sc: "#15803d", sb: "#f0fdf4" },
+  { t: "KRL selalu telat dan penuh sesak setiap pagi", cat: "Transportasi", color: "#1d4ed8", conf: 80, senti: "NEGATIF", sc: "#b91c1c", sb: "#fef2f2" },
 ];
 
 export default function DemoCard() {
@@ -45,20 +45,18 @@ export default function DemoCard() {
 
   return (
     <div className="bg-white border border-[#d4e5e2] rounded-[18px] shadow-[0_30px_60px_-34px_rgba(15,33,30,0.28),0_2px_6px_rgba(15,33,30,0.04)] overflow-hidden">
-      {/* bar */}
       <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#d4e5e2] bg-[#fbfdfc]">
         <span className="flex items-center gap-2 font-mono text-[13px] font-semibold text-[#1a2e2a]">
           <span className="w-2 h-2 rounded-full bg-[#0f766e] shadow-[0_0_0_3px_#e6f7f5] animate-pulse-soft" />
           Demo Langsung
         </span>
         <span className="ml-auto font-mono text-[11.5px] font-semibold tracking-[0.08em] text-[#0f766e] bg-[#e6f7f5] border border-[#ccefeb] px-2.5 py-1 rounded-md">
-          IndoBERT
+          IndoBERT · Play Store
         </span>
       </div>
 
-      {/* body */}
       <div className="p-6">
-        <div className="text-[#516662] font-mono text-[12.5px] font-semibold tracking-[0.08em] uppercase mb-2.5">Teks aduan</div>
+        <div className="text-[#516662] font-mono text-[12.5px] font-semibold tracking-[0.08em] uppercase mb-2.5">Ulasan aplikasi</div>
         <div className="text-[#0f1f1d] text-[16px] leading-relaxed min-h-[54px] bg-[#f4faf9] border border-[#d4e5e2] border-l-[3px] border-l-[#0f766e] rounded-[10px] px-4 py-3.5">
           {typed}
           <span className="inline-block w-2 h-[18px] bg-[#14b8a6] ml-0.5 align-[-3px] animate-pulse-soft" />

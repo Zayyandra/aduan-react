@@ -1,24 +1,25 @@
 import { useState } from "react";
 
 const CARA = [
-  ["1. Masukkan Aduan",    "Tempel atau ketik teks aduan layanan publik berbahasa Indonesia."],
-  ["2. Diproses IndoBERT", "Model transformer menokenisasi teks dan menganalisis konteksnya secara mendalam."],
-  ["3. Lihat Hasil",       "Kategori muncul dengan tingkat keyakinan, sentimen, dan distribusi probabilitas."],
+  ["Masukkan Ulasan", "Tempel atau ketik ulasan/aduan aplikasi layanan publik berbahasa Indonesia."],
+  ["Diproses IndoBERT", "Model transformer fine-tuned dari 21.145 ulasan Play Store menganalisis konteks teks secara mendalam."],
+  ["Lihat Hasil", "Kategori muncul dengan tingkat keyakinan, sentimen, dan distribusi probabilitas 6 kategori."],
 ];
 
 const UNGGUL = [
-  ["Berbasis Transformer",    "IndoBERT memahami konteks kalimat secara menyeluruh, bukan sekadar pencocokan kata."],
-  ["Khusus Bahasa Indonesia", "Dilatih dari aduan nyata media sosial berbahasa Indonesia sebanyak 12.248 data."],
-  ["Transparan Saat Ragu",    "Memberi peringatan ketika keyakinan rendah atau teks di luar 6 kategori."],
+  ["Berbasis Transformer", "IndoBERT memahami konteks kalimat secara menyeluruh, bukan sekadar pencocokan kata kunci."],
+  ["Data Play Store Nyata", "Dilatih dari 21.145 ulasan aplikasi layanan publik pemerintah di Google Play Store."],
+  ["Transparan Saat Ragu", "Memberi peringatan ketika keyakinan di bawah 60% atau teks di luar 6 kategori."],
 ];
 
 const FAQ = [
-  ["Apakah data aduan saya disimpan?",   "Tidak. Teks hanya diproses saat itu, tidak disimpan di server manapun."],
-  ["Berapa akurasi model?",              "IndoBERT mencapai akurasi 99,71% (macro-F1 99,68%) pada data uji. Namun perlu dicatat bahwa angka ini mengandung feature leakage akibat metode scraping berbasis keyword — akurasi pada teks tanpa kata domain eksplisit adalah 93,0%."],
-  ["Apa itu IndoBERT?",                  "Model bahasa berbasis Transformer (indobenchmark/indobert-base-p1) yang dilatih khusus untuk Bahasa Indonesia."],
-  ["6 kategori apa saja?",               "Kesehatan, pendidikan, infrastruktur, administrasi, kebersihan, dan transportasi."],
-  ["Apa itu sentimen?",                  "Label sentimen (positif/negatif/netral) dideteksi otomatis berbasis leksikon — bukan model terpisah. Bersifat weak label dan perlu diinterpretasi dengan hati-hati."],
-  ["Apakah ini sistem resmi pemerintah?","Bukan. Ini prototipe akademik Praktikum NLP Politeknik Caltex Riau, bukan pengganti SP4N-LAPOR!."],
+  ["Apakah data ulasan saya disimpan?", "Tidak. Teks hanya diproses saat itu, tidak disimpan di server manapun."],
+  ["Berapa akurasi model?", "IndoBERT mencapai akurasi 74,50% (macro-F1 72,78%) pada data uji Play Store. Keyword-stripped evaluation: 73,6% pada 96% test set tanpa kata kunci domain — angka yang jujur karena tidak ada keyword scraping."],
+  ["Apa itu IndoBERT?", "Model bahasa berbasis Transformer (indobenchmark/indobert-base-p1) yang dilatih khusus untuk Bahasa Indonesia, di-fine-tune 3 epoch di GPU T4."],
+  ["6 kategori apa saja?", "Kesehatan, Pendidikan, Infrastruktur, Administrasi, Kebersihan, dan Transportasi."],
+  ["Dari mana data pelatihan?", "21.145 ulasan dari 14 aplikasi layanan publik pemerintah di Google Play Store. Label sentimen otomatis dari rating bintang: ★1–2=negatif, ★3=netral, ★4–5=positif."],
+  ["Apa itu sentimen?", "Label sentimen (positif/negatif/netral) dideteksi berbasis leksikon — bukan model terpisah. Perlu diinterpretasi dengan hati-hati."],
+  ["Apakah ini sistem resmi pemerintah?", "Bukan. Ini prototipe akademik Praktikum NLP Politeknik Caltex Riau, bukan pengganti SP4N-LAPOR!."],
 ];
 
 function Akordeon({ data }) {
@@ -55,7 +56,6 @@ export default function InfoModal({ jenis, onClose }) {
         className="bg-white border border-[#d4e5e2] rounded-2xl max-w-xl w-full max-h-[88vh] overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="sticky top-0 bg-white border-b border-[#d4e5e2] px-6 py-4 flex items-center justify-between rounded-t-2xl">
           <div className="flex items-center gap-3">
             <div className="w-7 h-7 rounded-lg bg-[#e6f7f5] flex items-center justify-center">
@@ -74,7 +74,6 @@ export default function InfoModal({ jenis, onClose }) {
         </div>
 
         <div className="p-6">
-          {/* Cara kerja */}
           {jenis === "cara" && (
             <div className="space-y-6">
               <div>
@@ -86,7 +85,7 @@ export default function InfoModal({ jenis, onClose }) {
                         {i + 1}
                       </div>
                       <div>
-                        <div className="font-semibold text-[#0f1f1d] text-sm mb-1">{j.replace(/^\d+\.\s/, "")}</div>
+                        <div className="font-semibold text-[#0f1f1d] text-sm mb-1">{j}</div>
                         <p className="text-sm text-[#5a7975] leading-relaxed">{d}</p>
                       </div>
                     </div>
@@ -107,22 +106,22 @@ export default function InfoModal({ jenis, onClose }) {
             </div>
           )}
 
-          {/* FAQ */}
           {jenis === "faq" && <Akordeon data={FAQ} />}
 
-          {/* Tentang */}
           {jenis === "tentang" && (
             <div className="space-y-5">
               <p className="text-sm text-[#5a7975] leading-relaxed">
-                Sistem klasifikasi pengaduan masyarakat berbasis NLP yang mengelompokkan aduan layanan publik ke 6 kategori menggunakan IndoBERT, dikembangkan untuk Praktikum Natural Language Processing.
+                Sistem klasifikasi ulasan layanan publik berbasis NLP yang mengelompokkan ulasan ke 6 kategori menggunakan IndoBERT fine-tuned dari data Google Play Store, dikembangkan untuk Praktikum Natural Language Processing.
               </p>
               <div className="border border-[#d4e5e2] rounded-xl p-4 bg-[#f4faf9]">
                 <div className="text-xs font-semibold uppercase tracking-widest text-[#5a7975] mb-3">Informasi Akademik</div>
                 <ul className="text-sm text-[#0f1f1d] space-y-1.5">
-                  <li className="flex gap-2"><span className="text-[#5a7975]">Institusi</span> Politeknik Caltex Riau</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975]">Prodi</span> Teknik Informatika</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975]">Kelas</span> 3 TIF · Kelompok 3</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975]">TA</span> 2025/2026</li>
+                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Institusi</span> Politeknik Caltex Riau</li>
+                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Prodi</span> Teknik Informatika</li>
+                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Kelas</span> 3 TIF · Kelompok 3</li>
+                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">TA</span> 2025/2026</li>
+                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Dataset</span> 21.145 ulasan Play Store</li>
+                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Akurasi</span> 74,50% (macro-F1 72,78%)</li>
                 </ul>
               </div>
               <div className="border border-[#d4e5e2] rounded-xl p-4">

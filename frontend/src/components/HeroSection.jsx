@@ -78,10 +78,10 @@ function StatCard({ n, l, l2, delay = 0 }) {
 
 export default function HeroSection({ onStart }) {
   const stats = [
-    { n: "12.279",  l: "Data aduan" },
-    { n: "90,52%",  l: "Akurasi IndoBERT" },
-    { n: "88,47%",  l: "Akurasi jujur", l2: "tanpa kata kunci" },
-    { n: "6",       l: "Bidang layanan" },
+    { n: "21.145",  l: "Ulasan Play Store" },
+    { n: "74,50%",  l: "Akurasi IndoBERT" },
+    { n: "72,78%",  l: "Macro-F1 Score" },
+    { n: "6",       l: "Kategori layanan" },
   ];
 
   return (
@@ -126,9 +126,9 @@ export default function HeroSection({ onStart }) {
             className="reveal text-[#475467] text-[17px] leading-relaxed max-w-[510px] mb-[30px] font-medium"
             style={{ transitionDelay: "0.16s" }}
           >
-            Sistem NLP berbahasa Indonesia yang memetakan cuitan pengaduan ke 6
-            bidang layanan publik dan mendeteksi sentimennya — ditenagai
-            transformer IndoBERT.
+            Sistem NLP berbahasa Indonesia yang mengklasifikasikan ulasan
+            aplikasi layanan publik pemerintah ke 6 bidang dan mendeteksi
+            sentimennya — ditenagai IndoBERT fine-tuned dari ulasan Google Play Store.
           </p>
 
           {/* CTA */}
