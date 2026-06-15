@@ -8,13 +8,16 @@ export default {
         mono: ['"JetBrains Mono"', "monospace"],
       },
       colors: {
-        bg: "#f8faf9",        // off-white background
-        ink: "#1a2e2a",       // dark slate text
-        teal: "#0f766e",      // primary accent
-        tealdark: "#0b5a54",
-        mint: "#d1f0ea",       // soft highlight
-        line: "#e2e8e5",       // borders
-        muted: "#5f716c",      // secondary text
+        bg: "#f5f8fc",         // off-white background
+        ink: "#14233b",        // dark navy text
+        navy: "#1e3a5f",       // primary brand
+        navydark: "#15293f",
+        navymid: "#2a4a73",
+        gold: "#d4a017",       // accent
+        golddark: "#b8860f",
+        tint: "#eef2f7",       // soft navy surface
+        line: "#dde5ef",       // borders
+        muted: "#5a6b80",      // secondary text
         card: "#ffffff",
       },
     },

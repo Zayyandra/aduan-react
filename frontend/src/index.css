@@ -4,19 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== TOKENS ===== */
+/* ===== TOKENS — Government navy + gold ===== */
 :root {
-  --teal:      #0f766e;
-  --teal-dark: #0d5c56;
-  --teal-mid:  #14b8a6;
-  --mint:      #e6f7f5;
-  --mint-deep: #ccefeb;
-  --ink:       #0f1f1d;
-  --ink-2:     #1e3532;
-  --muted:     #5a7975;
-  --line:      #d4e5e2;
+  --navy:      #1e3a5f;  /* primary brand */
+  --navy-dark: #15293f;  /* hover / deep */
+  --navy-mid:  #2a4a73;  /* secondary navy */
+  --gold:      #d4a017;  /* accent / CTA highlight */
+  --gold-dark: #b8860f;
+  --gold-bg:   #fbf4e0;  /* gold pill background */
+  --gold-line: #efdca8;
+  --tint:      #eef2f7;  /* soft navy tint surface */
+  --tint-deep: #dde7f3;
+  --ink:       #14233b;  /* primary text */
+  --ink-2:     #1f3147;
+  --muted:     #5a6b80;  /* secondary text */
+  --line:      #dde5ef;  /* borders */
   --card:      #ffffff;
-  --bg:        #f4faf9;
+  --bg:        #f5f8fc;  /* page background */
 }
 
 * { box-sizing: border-box; }
@@ -32,8 +36,8 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--teal-mid); }
-*:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--navy-mid); }
+*:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; border-radius: 4px; }
 
 button, a, input, textarea, select { transition: all 0.15s ease; }
 
@@ -56,27 +60,9 @@ button, a, input, textarea, select { transition: all 0.15s ease; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-@keyframes drift1 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(38px,-26px) scale(1.06); }
-  66%      { transform: translate(-22px, 18px) scale(0.96); }
-}
-@keyframes drift2 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  40%      { transform: translate(-34px, 22px) scale(1.08); }
-  70%      { transform: translate(20px,-16px) scale(0.94); }
-}
-@keyframes drift3 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  50%      { transform: translate(24px, 30px) scale(1.05); }
-}
 @keyframes shimmer {
   from { background-position: -400px 0; }
   to   { background-position: 400px 0; }
-}
-@keyframes pingRing {
-  0%    { transform:scale(1);   opacity:.7; }
-  100%  { transform:scale(1.7); opacity:0; }
 }
 @keyframes barGrow {
   from { width: 0%; }
@@ -118,44 +104,13 @@ button, a, input, textarea, select { transition: all 0.15s ease; }
 .stagger-parent .reveal:nth-child(5) { transition-delay: 0.4s; }
 .stagger-parent .reveal:nth-child(6) { transition-delay: 0.5s; }
 
-/* ===== HERO BLOBS ===== */
-.hero-blob-1 {
-  position:absolute; border-radius:50%; pointer-events:none;
-  width:520px; height:520px; top:-120px; left:-80px;
-  background: radial-gradient(circle, rgba(20,184,166,0.18) 0%, transparent 70%);
-  animation: drift1 18s ease-in-out infinite;
-  filter: blur(40px);
-}
-.hero-blob-2 {
-  position:absolute; border-radius:50%; pointer-events:none;
-  width:420px; height:420px; bottom:-100px; right:-60px;
-  background: radial-gradient(circle, rgba(15,118,110,0.14) 0%, transparent 70%);
-  animation: drift2 22s ease-in-out infinite;
-  filter: blur(36px);
-}
-.hero-blob-3 {
-  position:absolute; border-radius:50%; pointer-events:none;
-  width:300px; height:300px; top:40%; right:30%;
-  background: radial-gradient(circle, rgba(45,212,191,0.10) 0%, transparent 70%);
-  animation: drift3 26s ease-in-out infinite;
-  filter: blur(28px);
-}
-
 /* ===== CARD HOVER LIFT ===== */
 .card-lift {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .card-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 44px -20px rgba(15,118,110,0.30);
-}
-
-/* ===== PING RING ===== */
-.ping-ring::before {
-  content:'';
-  position:absolute; inset:-4px; border-radius:inherit;
-  border: 2px solid rgba(20,184,166,0.5);
-  animation: pingRing 2s ease-out infinite;
+  box-shadow: 0 18px 40px -22px rgba(30,58,95,0.32);
 }
 
 /* ===== BAR ANIMATE ===== */

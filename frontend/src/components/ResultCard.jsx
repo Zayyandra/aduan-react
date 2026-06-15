@@ -5,9 +5,9 @@ import { IconClock } from "./icons";
 function EmptyState() {
   return (
     <div className="bg-card border border-dashed border-line rounded-xl p-6 h-full min-h-[320px] flex flex-col items-center justify-center text-center">
-      <IconClock width={44} height={44} className="text-[#94b5b0] mb-4" />
+      <IconClock width={44} height={44} className="text-[#9fb1ca] mb-4" />
       <div className="text-[16px] font-semibold text-ink mb-1.5">Belum ada hasil</div>
-      <p className="text-[14.5px] text-[#41514d] max-w-[260px] leading-relaxed">Masukkan teks aduan dan klik "Klasifikasikan" untuk melihat prediksi.</p>
+      <p className="text-[14.5px] text-[#5a6b80] max-w-[260px] leading-relaxed">Masukkan teks aduan dan klik "Klasifikasikan" untuk melihat prediksi.</p>
     </div>
   );
 }
@@ -118,8 +118,8 @@ export default function ResultCard({ hasil, teksInput }) {
 
       {/* Warning */}
       {ragu && (
-        <div className="mb-5 flex gap-3 items-start bg-mint/40 border border-teal/30 rounded-lg p-3.5">
-          <span className="text-teal font-bold leading-none mt-0.5 text-[18px]">!</span>
+        <div className="mb-5 flex gap-3 items-start bg-[#fbf4e0] border border-[#efdca8] rounded-lg p-3.5">
+          <span className="text-[#b8860f] font-bold leading-none mt-0.5 text-[18px]">!</span>
           <p className="text-[14px] text-ink leading-relaxed">
             <span className="font-semibold">Keyakinan rendah.</span> Teks mungkin di luar 6 kategori atau ambigu. Sebaiknya diverifikasi manual.
           </p>
@@ -147,7 +147,7 @@ export default function ResultCard({ hasil, teksInput }) {
           return (
             <div key={label} className="grid grid-cols-[110px_1fr_56px] items-center gap-3">
               <span className={`text-[13.5px] capitalize ${top ? "text-ink font-semibold" : "text-[#516662]"}`}>{label}</span>
-              <div className="h-2.5 bg-[#eef4f2] rounded-full overflow-hidden">
+              <div className="h-2.5 bg-[#eef2f7] rounded-full overflow-hidden">
                 <div className="h-full rounded-full transition-[width] duration-700 ease-out" style={{ width: `${skor * 100}%`, background: m.warna, opacity: top ? 1 : 0.4 }} />
               </div>
               <span className="text-[12.5px] text-[#516662] text-right font-mono">{(skor * 100).toFixed(1)}%</span>

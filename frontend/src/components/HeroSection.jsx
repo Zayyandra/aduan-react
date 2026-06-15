@@ -59,18 +59,18 @@ function StatCard({ n, l, l2, delay = 0 }) {
   const ref = useCountUp(n);
   return (
     <div
-      className="reveal card-lift bg-white border border-[#d4e5e2] rounded-[13px] px-4 py-5 shadow-sm text-center"
+      className="reveal bg-white/[0.06] border border-white/15 rounded-[11px] px-4 py-5 text-center backdrop-blur-sm"
       style={{ transitionDelay: `${delay}s` }}
     >
       <div
         ref={ref}
-        className="text-[#0f766e] font-mono font-semibold text-[22px] tracking-[-0.02em]"
+        className="text-[#f0c040] font-mono font-semibold text-[22px] tracking-[-0.02em]"
       >
         {n}
       </div>
-      <div className="text-[#516662] text-[13px] font-medium mt-1.5 leading-[1.35]">
+      <div className="text-[#c5d2e3] text-[13px] font-medium mt-1.5 leading-[1.35]">
         {l}
-        {l2 && <span className="block text-[#7d918d] font-normal text-[12px]">{l2}</span>}
+        {l2 && <span className="block text-[#92a6c2] font-normal text-[12px]">{l2}</span>}
       </div>
     </div>
   );
@@ -85,45 +85,43 @@ export default function HeroSection({ onStart }) {
   ];
 
   return (
-    <header className="relative overflow-hidden bg-[#f4faf9]">
-      {/* Animated blobs */}
-      <div className="hero-blob-1" />
-      <div className="hero-blob-2" />
-      <div className="hero-blob-3" />
-      {/* dot grid */}
+    <header className="relative overflow-hidden bg-[#1e3a5f]">
+      {/* subtle dot grid on flat navy */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(rgba(15,118,110,0.055) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-          WebkitMaskImage: "linear-gradient(180deg,#000,transparent 80%)",
-          maskImage: "linear-gradient(180deg,#000,transparent 80%)",
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "26px 26px",
+          WebkitMaskImage: "linear-gradient(180deg,#000,transparent 85%)",
+          maskImage: "linear-gradient(180deg,#000,transparent 85%)",
         }}
       />
+      {/* top gold rule — official portal cue */}
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#d4a017]" />
 
       <div className="relative max-w-[1180px] mx-auto px-6 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center py-[70px] lg:py-[84px]">
         {/* LEFT */}
         <div>
           {/* badge */}
-          <div className="reveal inline-flex items-center gap-2 border border-[#ccefeb] bg-[#e6f7f5] rounded-full px-4 py-2 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#0f766e]" />
-            <span className="text-[#0b5a54] text-[13px] font-semibold tracking-[0.1em] uppercase font-mono">
+          <div className="reveal inline-flex items-center gap-2 border border-[#d4a017]/40 bg-[#d4a017]/12 rounded-full px-4 py-2 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#f0c040]" />
+            <span className="text-[#f0c040] text-[13px] font-semibold tracking-[0.1em] uppercase font-mono">
               Praktikum NLP · Politeknik Caltex Riau
             </span>
           </div>
 
           {/* heading */}
           <h1
-            className="reveal text-[#0f1f1d] text-[40px] md:text-[53px] leading-[1.06] tracking-[-0.025em] font-extrabold mb-5"
+            className="reveal text-white text-[40px] md:text-[53px] leading-[1.06] tracking-[-0.025em] font-extrabold mb-5 text-balance"
             style={{ transitionDelay: "0.08s" }}
           >
             Klasifikasi Aduan<br />
-            <span className="text-[#0f766e]">Layanan Publik</span> Otomatis
+            <span className="text-[#f0c040]">Layanan Publik</span> Otomatis
           </h1>
 
           {/* lead */}
           <p
-            className="reveal text-[#475467] text-[17px] leading-relaxed max-w-[510px] mb-[30px] font-medium"
+            className="reveal text-[#c5d2e3] text-[17px] leading-relaxed max-w-[510px] mb-[30px] font-medium"
             style={{ transitionDelay: "0.16s" }}
           >
             Sistem NLP berbahasa Indonesia yang memetakan cuitan pengaduan ke 6
@@ -138,7 +136,7 @@ export default function HeroSection({ onStart }) {
           >
             <button
               onClick={onStart}
-              className="relative bg-[#0f766e] hover:bg-[#0d5c56] text-white font-semibold text-[15px] px-6 py-3.5 rounded-xl transition-colors flex items-center gap-2.5 shadow-[0_14px_28px_-12px_rgba(15,118,110,0.6)] hover:-translate-y-0.5 ping-ring overflow-visible"
+              className="bg-[#d4a017] hover:bg-[#b8860f] text-[#15293f] font-bold text-[15px] px-6 py-3.5 rounded-xl transition-colors flex items-center gap-2.5 shadow-[0_14px_28px_-12px_rgba(212,160,23,0.7)] hover:-translate-y-0.5"
             >
               Coba Sekarang
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -147,13 +145,13 @@ export default function HeroSection({ onStart }) {
             </button>
             <a
               href="#pipeline"
-              className="bg-white text-[#1a2e2a] border border-[#d4e5e2] hover:border-[#14b8a6] hover:text-[#0f766e] font-semibold text-[15px] px-6 py-3.5 rounded-xl hover:-translate-y-0.5"
+              className="bg-white/[0.08] text-white border border-white/25 hover:bg-white/[0.14] hover:border-white/40 font-semibold text-[15px] px-6 py-3.5 rounded-xl hover:-translate-y-0.5 transition-all"
             >
               Lihat Pipeline
             </a>
           </div>
 
-          {/* Stats — 2 baris di mobile, 4 kolom di desktop, center */}
+          {/* Stats — 2 baris di mobile, 4 kolom di desktop */}
           <div className="stagger-parent grid grid-cols-2 md:grid-cols-4 gap-3">
             {stats.map(({ n, l, l2 }, i) => (
               <StatCard key={l} n={n} l={l} l2={l2} delay={i * 0.1} />
