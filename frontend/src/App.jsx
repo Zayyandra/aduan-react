@@ -42,7 +42,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4faf9]">
+    <div className="min-h-screen flex flex-col bg-[#f5f8fc]">
       {/* Observer global — mount sekali */}
       <RevealObserver />
 
@@ -53,11 +53,11 @@ export default function App() {
       {/* Classifier */}
       <section id="app-section" className="max-w-[1180px] w-full mx-auto px-6 py-16">
         <div className="reveal mb-10 text-center">
-          <span className="inline-block text-[13px] font-semibold tracking-[0.1em] text-[#0b5a54] bg-[#e6f7f5] px-4 py-2 rounded-full mb-4 uppercase font-mono">
+          <span className="inline-block text-[13px] font-semibold tracking-[0.1em] text-[#1e3a5f] bg-[#eef2f7] border border-[#dde5ef] px-4 py-2 rounded-full mb-4 uppercase font-mono">
             Klasifikasi Otomatis
           </span>
-          <h2 className="text-3xl font-extrabold text-[#0f1f1d] mb-2">Analisis Aduan Masyarakat</h2>
-          <p className="text-[#475467] max-w-xl mx-auto text-[15px] font-medium">
+          <h2 className="text-3xl font-extrabold text-[#14233b] mb-2">Analisis Aduan Masyarakat</h2>
+          <p className="text-[#3d5068] max-w-xl mx-auto text-[15px] font-medium">
             Masukkan teks aduan berbahasa Indonesia. Sistem akan menentukan kategori layanan publik dan sentimen secara otomatis.
           </p>
         </div>
@@ -74,26 +74,26 @@ export default function App() {
 
       <PipelineSection />
 
-      <div className="bg-white border-y border-[#d4e5e2]">
+      <div className="bg-white border-y border-[#dde5ef]">
         <ShowcaseSection />
       </div>
 
       <CtaBand onStart={scrollToApp} />
 
-      <footer className="border-t border-[#d4e5e2] bg-white py-8">
+      <footer className="border-t border-[#dde5ef] bg-white py-8">
         <div className="max-w-[1180px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#0f766e] to-[#14b8a6] text-white flex items-center justify-center font-bold text-[15px]">A</span>
+            <span className="w-9 h-9 rounded-lg bg-[#1e3a5f] text-white flex items-center justify-center font-bold text-[15px]">A</span>
             <div>
-              <div className="font-bold text-[15px] text-[#0f1f1d]">AduanNLP</div>
-              <div className="text-[12px] text-[#5a7975]">Sistem Klasifikasi Aduan · IndoBERT</div>
+              <div className="font-bold text-[15px] text-[#14233b]">AduanNLP</div>
+              <div className="text-[12px] text-[#6b7f96]">Sistem Klasifikasi Aduan · IndoBERT</div>
             </div>
           </div>
-          <div className="text-[13.5px] text-[#516662] text-center">© 2025/2026 · Project Akhir Praktikum NLP · Politeknik Caltex Riau · Kelompok 3</div>
-          <div className="flex gap-4 text-[14px] text-[#41514d]">
-            <button onClick={() => setModal("cara")} className="hover:text-[#0f766e]">Cara Kerja</button>
-            <button onClick={() => setModal("faq")} className="hover:text-[#0f766e]">FAQ</button>
-            <button onClick={() => setModal("tentang")} className="hover:text-[#0f766e]">Tentang</button>
+          <div className="text-[13.5px] text-[#6b7f96] text-center">© 2025/2026 · Project Akhir Praktikum NLP · Politeknik Caltex Riau · Kelompok 3</div>
+          <div className="flex gap-4 text-[14px] text-[#3d5068]">
+            <button onClick={() => setModal("cara")} className="hover:text-[#1e3a5f]">Cara Kerja</button>
+            <button onClick={() => setModal("faq")} className="hover:text-[#1e3a5f]">FAQ</button>
+            <button onClick={() => setModal("tentang")} className="hover:text-[#1e3a5f]">Tentang</button>
           </div>
         </div>
       </footer>

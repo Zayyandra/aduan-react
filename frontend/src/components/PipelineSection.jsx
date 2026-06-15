@@ -11,21 +11,21 @@ export default function PipelineSection() {
     <section id="pipeline" className="py-[78px]">
       <div className="max-w-[1180px] mx-auto px-6">
         <div className="text-center max-w-[620px] mx-auto mb-12">
-          <div className="reveal font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Arsitektur Sistem</div>
-          <h2 className="reveal text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3" style={{ transitionDelay:"0.08s" }}>Pipeline Klasifikasi</h2>
-          <p className="reveal text-[#475467] text-[16px] font-medium" style={{ transitionDelay:"0.16s" }}>Lima tahap dari pengumpulan data X hingga inferensi, dengan catatan metodologi yang transparan.</p>
+          <div className="reveal font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#b8860f]">Arsitektur Sistem</div>
+          <h2 className="reveal text-[35px] font-extrabold tracking-[-0.02em] text-[#14233b] my-3" style={{ transitionDelay:"0.08s" }}>Pipeline Klasifikasi</h2>
+          <p className="reveal text-[#3d5068] text-[16px] font-medium" style={{ transitionDelay:"0.16s" }}>Lima tahap dari pengumpulan data X hingga inferensi, dengan catatan metodologi yang transparan.</p>
         </div>
 
         {/* Cards — alternate reveal kiri & kanan */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {STEPS.map((s, i) => (
             <div key={s.num}
-              className={`${i % 2 === 0 ? "reveal-left" : "reveal-right"} card-lift bg-white border border-[#d4e5e2] rounded-2xl p-[22px] shadow-sm`}
+              className={`${i % 2 === 0 ? "reveal-left" : "reveal-right"} card-lift bg-white border border-[#dde5ef] rounded-2xl p-[22px] shadow-sm`}
               style={{ transitionDelay: `${i * 0.08}s` }}>
-              <div className="font-mono font-semibold text-[14px] text-[#94b5b0]">{s.num}</div>
+              <div className="font-mono font-semibold text-[14px] text-[#9fb1ca]">{s.num}</div>
               <span className="font-mono text-[12px] font-semibold tracking-[0.08em] uppercase px-2.5 py-1 rounded-md inline-block my-2.5" style={{ background: s.bg, color: s.c }}>{s.tag}</span>
-              <h3 className="text-[16px] font-bold mb-2 text-[#0f1f1d]">{s.h}</h3>
-              <p className="text-[#41514d] text-[14px] leading-relaxed">{s.p}</p>
+              <h3 className="text-[16px] font-bold mb-2 text-[#14233b]">{s.h}</h3>
+              <p className="text-[#3d5068] text-[14px] leading-relaxed">{s.p}</p>
               <div className="font-mono text-[12px] font-semibold mt-1.5" style={{ color: s.c }}>{s.sub}</div>
             </div>
           ))}
