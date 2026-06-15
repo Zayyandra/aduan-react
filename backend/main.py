@@ -14,8 +14,6 @@ from huggingface_hub import snapshot_download
 # ============================================================
 # 1. Download + Load model dari HF Hub (sekali saat startup)
 # ============================================================
-
-# Ganti dengan username/nama-repo model kamu di HF
 HF_MODEL_REPO = os.getenv("HF_MODEL_REPO", "Zayyandra/indobert-aduan-klasifikasi")
 MODEL_DIR = "/tmp/indobert-aduan"
 
@@ -32,7 +30,7 @@ id2label = model.config.id2label
 print("Model siap. Label:", id2label)
 
 # ============================================================
-# 2. Preprocessing — sama persis dengan text_light saat training
+# 2. Preprocessing
 # ============================================================
 def text_light(t):
     t = str(t).lower()
@@ -46,7 +44,51 @@ def text_light(t):
     return t
 
 # ============================================================
-# 3. Deteksi sentimen berbasis leksikon
+# 3. Rule-based post-processing
+# ============================================================
+APP_RULES = {
+    # Transportasi
+    'krl access'            : 'transportasi',
+    'krl'                   : 'transportasi',
+    'transjakarta'          : 'transportasi',
+    'kai access'            : 'transportasi',
+    'mrt jakarta'           : 'transportasi',
+    'damri'                 : 'transportasi',
+    'busway'                : 'transportasi',
+    'stasiun'               : 'transportasi',
+    # Infrastruktur
+    'pln mobile'            : 'infrastruktur',
+    'mypertamina'           : 'infrastruktur',
+    'token listrik'         : 'infrastruktur',
+    'tagihan listrik'       : 'infrastruktur',
+    'mati lampu'            : 'infrastruktur',
+    # Kesehatan
+    'mobile jkn'            : 'kesehatan',
+    'satusehat'             : 'kesehatan',
+    # Administrasi
+    'm paspor'              : 'administrasi',
+    'dukcapil'              : 'administrasi',
+    'identitas kependudukan': 'administrasi',
+    # Kebersihan
+    'sp4n lapor'            : 'kebersihan',
+    'sipongi'               : 'kebersihan',
+    # Pendidikan
+    'rumah pendidikan'      : 'pendidikan',
+    'ppdb'                  : 'pendidikan',
+}
+
+def apply_rules(teks_lower: str, idx: int, conf: float) -> int:
+    if conf >= 0.85:
+        return idx
+    for keyword, override_kat in APP_RULES.items():
+        if keyword in teks_lower:
+            label_list = list(id2label.values())
+            if override_kat in label_list:
+                return label_list.index(override_kat)
+    return idx
+
+# ============================================================
+# 4. Deteksi sentimen berbasis leksikon
 # ============================================================
 NEG_WORDS = {
     'rusak','buruk','parah','lambat','telat','mahal','susah','sulit',
@@ -54,14 +96,14 @@ NEG_WORDS = {
     'jorok','kumuh','ditolak','mengecewakan','kecewa','menumpuk','berserakan',
     'padam','mati','tidak','belum','jarang','keluhan','mengeluh','protes',
     'macet','banjir','liar','sembarangan','dipersulit','berbelit','lama',
-    'buruk','telantar','overload','ribet','bau','kotor','jorok',
+    'telantar','overload','ribet','bau','error','gagal','lambat',
 }
 
 POS_WORDS = {
     'bagus','baik','cepat','ramah','nyaman','bersih','memuaskan','membantu',
     'lengkap','mudah','tepat','lancar','tertib','rapi','terawat','maju',
     'berkualitas','sigap','tanggap','gratis','rajin','puas','terbantu',
-    'mantap','keren','apresiasi','terima','diperbaiki','meningkat',
+    'mantap','keren','apresiasi','diperbaiki','meningkat','senang','suka',
 }
 
 def deteksi_sentimen(t: str) -> dict:
@@ -85,7 +127,7 @@ def deteksi_sentimen(t: str) -> dict:
     }
 
 # ============================================================
-# 4. Setup FastAPI
+# 5. Setup FastAPI
 # ============================================================
 app = FastAPI(title="Klasifikasi Aduan Layanan Publik")
 
@@ -120,6 +162,11 @@ def predict(data: AduanInput):
         probs = torch.softmax(logits, dim=1)[0]
 
     idx = int(probs.argmax())
+    conf = float(probs[idx])
+
+    # Apply rule-based override
+    idx = apply_rules(teks_bersih, idx, conf)
+
     semua = {id2label[i]: round(float(probs[i]), 4) for i in range(len(probs))}
     sentimen = deteksi_sentimen(teks_bersih)
 
