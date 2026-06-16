@@ -1,0 +1,696 @@
+import { useEffect, useRef } from "react";
+import DemoCard from "./DemoCard";
+
+// Parse angka format Indonesia: "12.279" → 12279, "90,52%" → 90.52
+function parseID(str) {
+  const clean = str.replace(/[^0-9,]/g, ""); // buang titik ribuan & suffix
+  return parseFloat(clean.replace(",", ".")) || 0;
+}
+
+function useCountUp(target, duration = 1200) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { el.textContent = target; return; }
+
+    // Tentukan format output
+    const hasPct   = target.includes("%");
+    const hasComma = target.includes(","); // desimal Indonesia
+    const hasDot   = /\d\.\d{3}/.test(target); // titik ribuan, mis 12.279
+    const num = parseID(target);
+    const dec = hasComma ? 2 : 0;
+
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      obs.disconnect();
+      const start = performance.now();
+      const tick = (now) => {
+        const p    = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const val  = num * ease;
+
+        let display;
+        if (hasDot && !hasComma) {
+          // format ribuan pakai titik: 12.279
+          display = Math.round(val).toLocaleString("id-ID");
+        } else if (hasComma) {
+          // desimal pakai koma: 90,52
+          display = val.toFixed(dec).replace(".", ",");
+        } else {
+          display = Math.round(val).toString();
+        }
+        if (hasPct) display += "%";
+
+        el.textContent = display;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target; // pastikan nilai akhir persis
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.5 });
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration]);
+  return ref;
+}
+
+function StatCard({ n, l, l2, delay = 0 }) {
+  const ref = useCountUp(n);
+  return (
+    <div
+      className="reveal card-lift bg-white border border-[#d4e5e2] rounded-[13px] px-4 py-5 shadow-sm text-center"
+      style={{ transitionDelay: `${delay}s` }}
+    >
+      <div
+        ref={ref}
+        className="text-[#0f766e] font-mono font-semibold text-[22px] tracking-[-0.02em]"
+      >
+        {n}
+      </div>
+      <div className="text-[#516662] text-[13px] font-medium mt-1.5 leading-[1.35]">
+        {l}
+        {l2 && <span className="block text-[#7d918d] font-normal text-[12px]">{l2}</span>}
+      </div>
+    </div>
+  );
+}
+
+export default function HeroSection({ onStart }) {
+  const stats = [
+    { n: "21.145",  l: "Ulasan Play Store" },
+    { n: "74,50%",  l: "Akurasi IndoBERT" },
+    { n: "72,78%",  l: "Macro-F1 Score" },
+    { n: "6",       l: "Kategori layanan" },
+  ];
+
+  return (
+    <header className="relative overflow-hidden bg-[#f4faf9]">
+      {/* Animated blobs */}
+      <div className="hero-blob-1" />
+      <div className="hero-blob-2" />
+      <div className="hero-blob-3" />
+      {/* dot grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(rgba(15,118,110,0.055) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          WebkitMaskImage: "linear-gradient(180deg,#000,transparent 80%)",
+          maskImage: "linear-gradient(180deg,#000,transparent 80%)",
+        }}
+      />
+
+      <div className="relative max-w-[1180px] mx-auto px-6 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center py-[70px] lg:py-[84px]">
+        {/* LEFT */}
+        <div>
+          {/* badge */}
+          <div className="reveal inline-flex items-center gap-2 border border-[#ccefeb] bg-[#e6f7f5] rounded-full px-4 py-2 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0f766e]" />
+            <span className="text-[#0b5a54] text-[13px] font-semibold tracking-[0.1em] uppercase font-mono">
+              Praktikum NLP · Politeknik Caltex Riau
+            </span>
+          </div>
+
+          {/* heading */}
+          <h1
+            className="reveal text-[#0f1f1d] text-[40px] md:text-[53px] leading-[1.06] tracking-[-0.025em] font-extrabold mb-5"
+            style={{ transitionDelay: "0.08s" }}
+          >
+            Klasifikasi Aduan<br />
+            <span className="text-[#0f766e]">Layanan Publik</span> Otomatis
+          </h1>
+
+          {/* lead */}
+          <p
+            className="reveal text-[#475467] text-[17px] leading-relaxed max-w-[510px] mb-[30px] font-medium"
+            style={{ transitionDelay: "0.16s" }}
+          >
+            Sistem NLP berbahasa Indonesia yang mengklasifikasikan ulasan
+            aplikasi layanan publik pemerintah ke 6 bidang dan mendeteksi
+            sentimennya — ditenagai IndoBERT fine-tuned dari ulasan Google Play Store.
+          </p>
+
+          {/* CTA */}
+          <div
+            className="reveal flex flex-wrap gap-3.5 mb-10"
+            style={{ transitionDelay: "0.24s" }}
+          >
+            <button
+              onClick={onStart}
+              className="relative bg-[#0f766e] hover:bg-[#0d5c56] text-white font-semibold text-[15px] px-6 py-3.5 rounded-xl transition-colors flex items-center gap-2.5 shadow-[0_14px_28px_-12px_rgba(15,118,110,0.6)] hover:-translate-y-0.5 ping-ring overflow-visible"
+            >
+              Coba Sekarang
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <a
+              href="#pipeline"
+              className="bg-white text-[#1a2e2a] border border-[#d4e5e2] hover:border-[#14b8a6] hover:text-[#0f766e] font-semibold text-[15px] px-6 py-3.5 rounded-xl hover:-translate-y-0.5"
+            >
+              Lihat Pipeline
+            </a>
+          </div>
+
+          {/* Stats — 2 baris di mobile, 4 kolom di desktop, center */}
+          <div className="stagger-parent grid grid-cols-2 md:grid-cols-4 gap-3">
+            {stats.map(({ n, l, l2 }, i) => (
+              <StatCard key={l} n={n} l={l} l2={l2} delay={i * 0.1} />
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT — Demo card reveal dari kanan */}
+        <div className="reveal-right">
+          <DemoCard />
+        </div>
+      </div>
+    </header>
+  );
+}const ITEMS = [
+  { q: "Aplikasi PLN Mobile sering error waktu mau bayar tagihan, tolong diperbaiki.", cat: "Infrastruktur", conf: 83, cc: "#15803d", cbg: "#f0fdf4", senti: "Negatif", scol: "#dc2626", sbg: "#fef2f2" },
+  { q: "Antrian di puskesmas lama banget, padahal sudah daftar online lewat Mobile JKN.", cat: "Kesehatan", conf: 76, cc: "#be123c", cbg: "#fff1f3", senti: "Negatif", scol: "#dc2626", sbg: "#fef2f2" },
+  { q: "KRL Access sangat membantu pantau jadwal kereta, tidak perlu antri beli tiket.", cat: "Transportasi", conf: 80, cc: "#1d4ed8", cbg: "#eff6ff", senti: "Positif", scol: "#16a34a", sbg: "#f0fdf4" },
+  { q: "Urus KTP digital lewat aplikasi Identitas Kependudukan mudah dan cepat, tidak perlu ke kantor.", cat: "Administrasi", conf: 74, cc: "#0f766e", cbg: "#f0fdfa", senti: "Positif", scol: "#16a34a", sbg: "#f0fdf4" },
+];
+
+export default function ShowcaseSection() {
+  return (
+    <section id="contoh" className="py-[78px]">
+      <div className="max-w-[1180px] mx-auto px-6">
+        <div className="text-center max-w-[620px] mx-auto mb-12">
+          <div className="reveal font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Contoh Hasil</div>
+          <h2 className="reveal text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3" style={{ transitionDelay:"0.08s" }}>Seperti Apa Hasilnya?</h2>
+          <p className="reveal text-[#475467] text-[16px] font-medium" style={{ transitionDelay:"0.16s" }}>Ulasan nyata dari aplikasi layanan publik beserta prediksi kategori dan sentimen dari model.</p>
+        </div>
+
+        <div className="stagger-parent grid md:grid-cols-2 gap-4">
+          {ITEMS.map((it, i) => (
+            <div key={i}
+              className="reveal card-lift bg-white border border-[#d4e5e2] rounded-[15px] p-5 border-l-4 shadow-sm"
+              style={{ borderLeftColor: it.cc, transitionDelay: `${i * 0.1}s` }}>
+              <p className="text-[15.5px] leading-relaxed text-[#0f1f1d] mb-4">"{it.q}"</p>
+              <div className="flex gap-2 items-center flex-wrap">
+                <span className="font-mono text-[12.5px] font-semibold px-3 py-1.5 rounded-md" style={{ background:it.cbg, color:it.cc }}>{it.cat} · {it.conf}%</span>
+                <span className="font-mono text-[12.5px] font-semibold px-3 py-1.5 rounded-md" style={{ background:it.sbg, color:it.scol }}>{it.senti}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+const STEPS = [
+  { num: "01", tag: "Data Source", sub: "play store", h: "Google Play Store", p: "Ulasan aplikasi layanan publik pemerintah berbahasa Indonesia.", c: "#1d4ed8", bg: "#eff6ff" },
+  { num: "02", tag: "Scraping", sub: "google-play-scraper", h: "14 Aplikasi", p: "Scraping per app pemerintah, filter review pendek, bahasa Inggris & spam.", c: "#b45309", bg: "#fffbeb" },
+  { num: "03", tag: "Preprocessing", sub: "rating → label", h: "Filter + Label", p: "Dedup, filter teks generik, sentimen otomatis dari rating bintang.", c: "#15803d", bg: "#f0fdf4" },
+  { num: "04", tag: "Pemodelan", sub: "transformer", h: "IndoBERT", p: "Fine-tune indobert-base-p1, GPU T4, 3 epoch, 21.145 data latih.", c: "#6d28d9", bg: "#f5f3ff" },
+  { num: "05", tag: "Web App", sub: "live demo", h: "React + FastAPI", p: "Inferensi real-time, deploy Vercel + HuggingFace Spaces.", c: "#0f766e", bg: "#f0fdfa" },
+];
+
+export default function PipelineSection() {
+  return (
+    <section id="pipeline" className="py-[78px]">
+      <div className="max-w-[1180px] mx-auto px-6">
+        <div className="text-center max-w-[620px] mx-auto mb-12">
+          <div className="reveal font-mono text-[13px] tracking-[0.1em] uppercase font-bold text-[#0b5a54]">Arsitektur Sistem</div>
+          <h2 className="reveal text-[35px] font-extrabold tracking-[-0.02em] text-[#0f1f1d] my-3" style={{ transitionDelay:"0.08s" }}>Pipeline Klasifikasi</h2>
+          <p className="reveal text-[#475467] text-[16px] font-medium" style={{ transitionDelay:"0.16s" }}>Lima tahap dari scraping ulasan Play Store hingga inferensi, dengan catatan metodologi yang transparan.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+          {STEPS.map((s, i) => (
+            <div key={s.num}
+              className={`${i % 2 === 0 ? "reveal-left" : "reveal-right"} card-lift bg-white border border-[#d4e5e2] rounded-2xl p-[22px] shadow-sm flex flex-col`}
+              style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div className="font-mono font-semibold text-[14px] text-[#94b5b0]">{s.num}</div>
+              <span className="font-mono text-[12px] font-semibold tracking-[0.08em] uppercase px-2.5 py-1 rounded-md inline-block my-2.5 self-start" style={{ background: s.bg, color: s.c }}>{s.tag}</span>
+              <h3 className="text-[16px] font-bold mb-2 text-[#0f1f1d]">{s.h}</h3>
+              <p className="text-[#41514d] text-[14px] leading-relaxed flex-1">{s.p}</p>
+              <div className="font-mono text-[12px] font-semibold mt-2" style={{ color: s.c }}>{s.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="reveal mt-6 flex gap-3.5 items-start bg-[#fffaf0] border border-[#fbe6c4] rounded-2xl px-5 py-5" style={{ transitionDelay:"0.3s" }}>
+          <div className="flex-shrink-0 w-9 h-9 rounded-[9px] bg-[#fef0d6] text-[#b45309] grid place-items-center font-extrabold text-[18px]">!</div>
+          <div>
+            <b className="text-[#92400e] text-[15px]">Catatan metodologis</b>
+            <p className="text-[#6b4e1f] text-[15px] leading-relaxed mt-1">
+              Akurasi 74,50% pada data uji adalah angka jujur dari dataset Play Store tanpa keyword scraping.
+              Keyword-stripped evaluation menunjukkan akurasi 73,6% pada 96% test set tanpa kata kunci domain — model belajar dari konteks teks, bukan menghafal kata kunci.
+              Sentimen dilabeli otomatis dari rating bintang (★1–2=negatif, ★3=netral, ★4–5=positif), bukan model terlatih terpisah.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+import { useState } from "react";
+
+const CONTOH = [
+  "Aplikasi Mobile JKN error terus, tidak bisa cek status BPJS",
+  "PPDB online bermasalah, anak saya tidak bisa daftar sekolah negeri",
+  "KRL selalu telat dan penuh sesak setiap pagi hari kerja",
+];
+
+export default function InputPanel({ onSubmit, loading }) {
+  const [teks, setTeks] = useState("");
+
+  const submit = () => {
+    if (!teks.trim()) { alert("Masukkan teks aduan dulu."); return; }
+    onSubmit(teks.trim());
+  };
+  const onKey = (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submit(); };
+
+  return (
+    <div className="bg-white border border-[#d4e5e2] rounded-2xl p-6 shadow-sm">
+      {/* Label */}
+      <div className="flex items-center justify-between mb-3">
+        <label className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#3a4a46]">
+          Teks Aduan
+        </label>
+        <span className="text-[12.5px] text-[#41514d] font-mono font-medium bg-[#f4faf9] px-2.5 py-1 rounded border border-[#d4e5e2]">
+          {teks.length} karakter
+        </span>
+      </div>
+
+      {/* Textarea */}
+      <textarea
+        value={teks}
+        onChange={(e) => setTeks(e.target.value)}
+        onKeyDown={onKey}
+        placeholder="Ketik atau tempel teks aduan layanan publik di sini…"
+        rows={6}
+        className="w-full resize-y border border-[#d4e5e2] rounded-xl p-4 text-[15.5px] bg-[#f4faf9] text-[#0f1f1d] leading-relaxed outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/15 transition placeholder-[#6b827d]"
+      />
+
+      {/* Contoh */}
+      <div className="mt-4">
+        <div className="text-[13px] text-[#3a4a46] font-semibold mb-2 uppercase tracking-[0.06em]">
+          Contoh aduan:
+        </div>
+        <div className="flex flex-col gap-1.5">
+          {CONTOH.map((c, i) => (
+            <button
+              key={i}
+              onClick={() => setTeks(c)}
+              className="text-left text-[13px] text-[#0f766e] bg-[#f0fdfa] hover:bg-[#ccefeb] border border-[#ccefeb] rounded-lg px-3 py-2 transition-colors leading-snug"
+            >
+              "{c}"
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tombol */}
+      <button
+        onClick={submit}
+        disabled={loading}
+        className="mt-5 w-full bg-[#0f766e] hover:bg-[#0d5c56] disabled:opacity-50 text-white rounded-xl py-3.5 text-[15px] font-semibold transition-colors flex items-center justify-center gap-2.5 shadow-md shadow-[#0f766e]/20"
+      >
+        {loading ? (
+          <>
+            <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            Menganalisis…
+          </>
+        ) : (
+          <>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.6"/>
+              <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+            </svg>
+            Klasifikasikan
+          </>
+        )}
+      </button>
+      <div className="mt-3 text-[12.5px] text-[#5a7975] font-medium text-center">
+        Ctrl + Enter untuk klasifikasi cepat
+      </div>
+    </div>
+  );
+}import { useState } from "react";
+import { KATEGORI, keywordPemicu } from "./categories";
+import { IconClock } from "./icons";
+
+function EmptyState() {
+  return (
+    <div className="bg-card border border-dashed border-line rounded-xl p-6 h-full min-h-[320px] flex flex-col items-center justify-center text-center">
+      <IconClock width={44} height={44} className="text-[#94b5b0] mb-4" />
+      <div className="text-[16px] font-semibold text-ink mb-1.5">Belum ada hasil</div>
+      <p className="text-[14.5px] text-[#41514d] max-w-[260px] leading-relaxed">Masukkan teks aduan dan klik "Klasifikasikan" untuk melihat prediksi.</p>
+    </div>
+  );
+}
+
+const LOW = 0.6;
+
+const SENTIMEN_CONFIG = {
+  positif: { label: "Positif", bg: "#dcfce7", color: "#15803d", dot: "#22c55e" },
+  negatif: { label: "Negatif", bg: "#fee2e2", color: "#b91c1c", dot: "#ef4444" },
+  netral: { label: "Netral", bg: "#f1f5f9", color: "#475569", dot: "#94a3b8" },
+};
+
+function SentimenBadge({ sentimen, detail }) {
+  const [showDetail, setShowDetail] = useState(false);
+  const cfg = SENTIMEN_CONFIG[sentimen] || SENTIMEN_CONFIG.netral;
+
+  return (
+    <div className="mb-5">
+      <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-2">Sentimen</div>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button
+          onClick={() => setShowDetail((v) => !v)}
+          className="flex items-center gap-2 rounded-full px-3.5 py-2 text-[14px] font-semibold transition-opacity hover:opacity-80"
+          style={{ background: cfg.bg, color: cfg.color }}
+          title="Klik untuk lihat detail"
+        >
+          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.dot }} />
+          {cfg.label}
+        </button>
+        <span className="text-[12.5px] text-[#41514d] font-medium">
+          +{detail.skor_positif} positif · -{detail.skor_negatif} negatif
+        </span>
+      </div>
+
+      {showDetail && (detail.kata_positif.length > 0 || detail.kata_negatif.length > 0) && (
+        <div className="mt-3 rounded-lg border border-line p-3 flex flex-col gap-2">
+          {detail.kata_positif.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 items-center">
+              <span className="text-[12px] text-[#41514d] w-14 shrink-0">Positif:</span>
+              {detail.kata_positif.map((k) => (
+                <span key={k} className="text-[12px] rounded px-2 py-0.5" style={{ background: "#dcfce7", color: "#15803d" }}>{k}</span>
+              ))}
+            </div>
+          )}
+          {detail.kata_negatif.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 items-center">
+              <span className="text-[12px] text-[#41514d] w-14 shrink-0">Negatif:</span>
+              {detail.kata_negatif.map((k) => (
+                <span key={k} className="text-[12px] rounded px-2 py-0.5" style={{ background: "#fee2e2", color: "#b91c1c" }}>{k}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <p className="text-[12px] text-[#5a7975] mt-2 leading-relaxed">
+        Dideteksi otomatis berbasis leksikon · Klik badge untuk detail kata
+      </p>
+    </div>
+  );
+}
+
+export default function ResultCard({ hasil, teksInput }) {
+  const [salin, setSalin] = useState(false);
+  if (!hasil) return <EmptyState />;
+
+  const meta = KATEGORI[hasil.kategori] || { warna: "#0f766e", desc: "" };
+  const entries = Object.entries(hasil.semua_skor).sort((a, b) => b[1] - a[1]);
+  const ragu = hasil.confidence < LOW;
+  const pemicu = keywordPemicu(teksInput, hasil.kategori);
+
+  const doSalin = () => {
+    const t =
+      `Kategori: ${hasil.kategori} (${(hasil.confidence * 100).toFixed(1)}%)\n` +
+      `Sentimen: ${hasil.sentimen}\n` +
+      entries.map(([l, s]) => `  ${l}: ${(s * 100).toFixed(1)}%`).join("\n");
+    navigator.clipboard.writeText(t);
+    setSalin(true);
+    setTimeout(() => setSalin(false), 1500);
+  };
+
+  return (
+    <div className="bg-card border border-line rounded-xl p-6">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4 pb-5 border-b border-line mb-5">
+        <div className="min-w-0">
+          <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-1">Hasil Prediksi</div>
+          <div className="font-extrabold text-3xl capitalize leading-none" style={{ color: meta.warna }}>
+            {hasil.kategori}
+          </div>
+          <div className="text-[14px] text-[#41514d] mt-2">
+            {(hasil.confidence * 100).toFixed(1)}% yakin · {meta.desc}
+          </div>
+        </div>
+        <button
+          onClick={doSalin}
+          className="text-[13px] border rounded-md px-3.5 py-2 transition-colors shrink-0 font-medium"
+          style={{ borderColor: salin ? meta.warna : "#e2e8e5", color: salin ? meta.warna : "#41514d" }}
+        >
+          {salin ? "Tersalin!" : "Salin"}
+        </button>
+      </div>
+
+      {/* Sentimen */}
+      {hasil.sentimen && hasil.sentimen_detail && (
+        <SentimenBadge sentimen={hasil.sentimen} detail={hasil.sentimen_detail} />
+      )}
+
+      {/* Warning */}
+      {ragu && (
+        <div className="mb-5 flex gap-3 items-start bg-mint/40 border border-teal/30 rounded-lg p-3.5">
+          <span className="text-teal font-bold leading-none mt-0.5 text-[18px]">!</span>
+          <p className="text-[14px] text-ink leading-relaxed">
+            <span className="font-semibold">Keyakinan rendah.</span> Teks mungkin di luar 6 kategori atau ambigu. Sebaiknya diverifikasi manual.
+          </p>
+        </div>
+      )}
+
+      {/* Kata kunci */}
+      {pemicu.length > 0 && (
+        <div className="mb-5">
+          <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-2">Kata kunci terdeteksi</div>
+          <div className="flex flex-wrap gap-2">
+            {pemicu.map((k) => (
+              <span key={k} className="text-[13px] rounded-md px-2.5 py-1 font-medium" style={{ background: meta.warna + "1a", color: meta.warna }}>{k}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Distribusi probabilitas */}
+      <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-3">Distribusi probabilitas</div>
+      <div className="flex flex-col gap-3">
+        {entries.map(([label, skor]) => {
+          const m = KATEGORI[label] || { warna: "#999" };
+          const top = label === hasil.kategori;
+          return (
+            <div key={label} className="grid grid-cols-[110px_1fr_56px] items-center gap-3">
+              <span className={`text-[13.5px] capitalize ${top ? "text-ink font-semibold" : "text-[#516662]"}`}>{label}</span>
+              <div className="h-2.5 bg-[#eef4f2] rounded-full overflow-hidden">
+                <div className="h-full rounded-full transition-[width] duration-700 ease-out" style={{ width: `${skor * 100}%`, background: m.warna, opacity: top ? 1 : 0.4 }} />
+              </div>
+              <span className="text-[12.5px] text-[#516662] text-right font-mono">{(skor * 100).toFixed(1)}%</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}export default function Navbar({ onModal }) {
+  return (
+    <header className="sticky top-0 z-40 border-b border-[#d4e5e2] bg-[#f4faf9]/90 backdrop-blur-md">
+      <div className="max-w-[1180px] mx-auto px-6 h-[68px] flex items-center justify-between">
+        {/* Brand */}
+        <div className="flex items-center gap-3">
+          <span className="w-[38px] h-[38px] rounded-[10px] bg-gradient-to-br from-[#0f766e] to-[#14b8a6] text-white flex items-center justify-center font-extrabold text-[16px] select-none shadow-[0_6px_16px_-6px_rgba(15,118,110,0.5)]">
+            A
+          </span>
+          <div>
+            <div className="font-extrabold text-[16px] text-[#0f1f1d] leading-tight">AduanNLP</div>
+            <div className="text-[12px] text-[#5a7975] leading-tight">Klasifikasi Pengaduan · IndoBERT</div>
+          </div>
+        </div>
+
+        {/* Nav */}
+        <nav className="hidden md:flex items-center gap-1">
+          {[["cara", "Cara Kerja"], ["faq", "FAQ"], ["tentang", "Tentang"]].map(([id, label]) => (
+            <button key={id} onClick={() => onModal(id)}
+              className="text-[14px] text-[#41514d] hover:text-[#0f766e] px-3.5 py-2 rounded-lg hover:bg-[#e6f7f5] transition-colors font-medium">
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Badge + CTA */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2 bg-[#e6f7f5] border border-[#ccefeb] rounded-full px-3.5 py-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0f766e] animate-pulse-soft" />
+            <span className="text-[13.5px] font-semibold font-mono text-[#0b5a54]">akurasi 74,50%</span>
+          </div>
+          <a href="#app-section"
+            className="bg-[#0f766e] text-white text-[14px] font-semibold px-[18px] py-2.5 rounded-lg hover:bg-[#0d5c56] transition-colors">
+            Mulai
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== TOKENS ===== */
+:root {
+  --teal:      #0f766e;
+  --teal-dark: #0d5c56;
+  --teal-mid:  #14b8a6;
+  --mint:      #e6f7f5;
+  --mint-deep: #ccefeb;
+  --ink:       #0f1f1d;
+  --ink-2:     #1e3532;
+  --muted:     #5a7975;
+  --line:      #d4e5e2;
+  --card:      #ffffff;
+  --bg:        #f4faf9;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.font-mono { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--teal-mid); }
+*:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
+
+button, a, input, textarea, select { transition: all 0.15s ease; }
+
+/* ===== KEYFRAMES ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes drift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(38px,-26px) scale(1.06); }
+  66%      { transform: translate(-22px, 18px) scale(0.96); }
+}
+@keyframes drift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%      { transform: translate(-34px, 22px) scale(1.08); }
+  70%      { transform: translate(20px,-16px) scale(0.94); }
+}
+@keyframes drift3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(24px, 30px) scale(1.05); }
+}
+@keyframes shimmer {
+  from { background-position: -400px 0; }
+  to   { background-position: 400px 0; }
+}
+@keyframes pingRing {
+  0%    { transform:scale(1);   opacity:.7; }
+  100%  { transform:scale(1.7); opacity:0; }
+}
+@keyframes barGrow {
+  from { width: 0%; }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.animate-fade-up    { animation: fadeUp  0.55s ease both; }
+.animate-fade-left  { animation: fadeLeft  0.55s ease both; }
+.animate-fade-right { animation: fadeRight 0.55s ease both; }
+.animate-pulse-soft { animation: pulse-soft 1.8s ease infinite; }
+.animate-spin       { animation: spin 0.75s linear infinite; }
+
+/* ===== REVEAL ON SCROLL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.revealed,
+.reveal-left.revealed,
+.reveal-right.revealed {
+  opacity: 1;
+  transform: translate(0,0);
+}
+.stagger-parent .reveal:nth-child(1) { transition-delay: 0s; }
+.stagger-parent .reveal:nth-child(2) { transition-delay: 0.1s; }
+.stagger-parent .reveal:nth-child(3) { transition-delay: 0.2s; }
+.stagger-parent .reveal:nth-child(4) { transition-delay: 0.3s; }
+.stagger-parent .reveal:nth-child(5) { transition-delay: 0.4s; }
+.stagger-parent .reveal:nth-child(6) { transition-delay: 0.5s; }
+
+/* ===== HERO BLOBS ===== */
+.hero-blob-1 {
+  position:absolute; border-radius:50%; pointer-events:none;
+  width:520px; height:520px; top:-120px; left:-80px;
+  background: radial-gradient(circle, rgba(20,184,166,0.18) 0%, transparent 70%);
+  animation: drift1 18s ease-in-out infinite;
+  filter: blur(40px);
+}
+.hero-blob-2 {
+  position:absolute; border-radius:50%; pointer-events:none;
+  width:420px; height:420px; bottom:-100px; right:-60px;
+  background: radial-gradient(circle, rgba(15,118,110,0.14) 0%, transparent 70%);
+  animation: drift2 22s ease-in-out infinite;
+  filter: blur(36px);
+}
+.hero-blob-3 {
+  position:absolute; border-radius:50%; pointer-events:none;
+  width:300px; height:300px; top:40%; right:30%;
+  background: radial-gradient(circle, rgba(45,212,191,0.10) 0%, transparent 70%);
+  animation: drift3 26s ease-in-out infinite;
+  filter: blur(28px);
+}
+
+/* ===== CARD HOVER LIFT ===== */
+.card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px -20px rgba(15,118,110,0.30);
+}
+
+/* ===== PING RING ===== */
+.ping-ring::before {
+  content:'';
+  position:absolute; inset:-4px; border-radius:inherit;
+  border: 2px solid rgba(20,184,166,0.5);
+  animation: pingRing 2s ease-out infinite;
+}
+
+/* ===== BAR ANIMATE ===== */
+.bar-animate {
+  animation: barGrow 0.9s cubic-bezier(.22,1,.36,1) both;
+}

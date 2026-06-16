@@ -1,40 +1,119 @@
-export default function Navbar({ onModal }) {
-  return (
-    <header className="sticky top-0 z-40 border-b border-[#d4e5e2] bg-[#f4faf9]/90 backdrop-blur-md">
-      <div className="max-w-[1180px] mx-auto px-6 h-[68px] flex items-center justify-between">
-        {/* Brand */}
-        <div className="flex items-center gap-3">
-          <span className="w-[38px] h-[38px] rounded-[10px] bg-gradient-to-br from-[#0f766e] to-[#14b8a6] text-white flex items-center justify-center font-extrabold text-[16px] select-none shadow-[0_6px_16px_-6px_rgba(15,118,110,0.5)]">
-            A
-          </span>
-          <div>
-            <div className="font-extrabold text-[16px] text-[#0f1f1d] leading-tight">AduanNLP</div>
-            <div className="text-[12px] text-[#5a7975] leading-tight">Klasifikasi Pengaduan · IndoBERT</div>
-          </div>
-        </div>
+import { useEffect, useState } from "react";
 
-        {/* Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+export default function Navbar({ onModal }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  const brandLinkStyle = {
+    display: "flex", alignItems: "center", gap: 12, textDecoration: "none"
+  };
+
+  const logoStyle = {
+    width: 38, height: 38, borderRadius: 10,
+    background: "linear-gradient(135deg, #0f766e 0%, #14b8a6 100%)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    color: "#fff", fontFamily: "var(--font-display)", fontWeight: 800,
+    fontSize: 16, userSelect: "none",
+    boxShadow: "0 4px 14px -4px rgba(15,118,110,0.55)",
+  };
+
+  const mulaiStyle = {
+    fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 600,
+    background: "var(--color-brand)", color: "#fff",
+    padding: "9px 20px", borderRadius: "var(--r-md)",
+    textDecoration: "none", display: "inline-flex", alignItems: "center",
+    border: "none", cursor: "pointer",
+    transition: "background 0.15s ease",
+  };
+
+  return (
+    <nav className={`nav-root${scrolled ? " scrolled" : ""}`}>
+      <div className="nav-inner">
+
+        {/* Brand */}
+        <a href="/" style={brandLinkStyle}>
+          <div style={logoStyle}>A</div>
+          <div>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 16, color: "var(--color-ink)", letterSpacing: "-0.025em", lineHeight: 1.2 }}>
+              AduanNLP
+            </div>
+            <div style={{ fontFamily: "var(--font-body)", fontSize: 11, color: "var(--color-text-muted)", lineHeight: 1.2 }}>
+              Klasifikasi Pengaduan · IndoBERT
+            </div>
+          </div>
+        </a>
+
+        {/* Nav links */}
+        <div className="hidden md:flex items-center" style={{ gap: 4 }}>
           {[["cara", "Cara Kerja"], ["faq", "FAQ"], ["tentang", "Tentang"]].map(([id, label]) => (
-            <button key={id} onClick={() => onModal(id)}
-              className="text-[14px] text-[#41514d] hover:text-[#0f766e] px-3.5 py-2 rounded-lg hover:bg-[#e6f7f5] transition-colors font-medium">
+            <button
+              key={id}
+              onClick={() => onModal(id)}
+              style={{
+                fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 500,
+                color: "var(--color-text)", padding: "7px 14px",
+                borderRadius: "var(--r-md)", background: "transparent",
+                border: "none", cursor: "pointer",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "var(--color-surface-2)";
+                e.currentTarget.style.color = "var(--color-brand)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "var(--color-text)";
+              }}
+            >
               {label}
             </button>
           ))}
-        </nav>
+        </div>
 
-        {/* Badge + CTA */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 bg-[#e6f7f5] border border-[#ccefeb] rounded-full px-3.5 py-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0f766e] animate-pulse-soft" />
-            <span className="text-[13.5px] font-semibold font-mono text-[#0b5a54]">akurasi 74,50%</span>
+        {/* Right side */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+
+          {/* Akurasi badge */}
+          <div
+            className="hidden sm:flex items-center"
+            style={{
+              gap: 7,
+              background: "var(--color-brand-muted)",
+              border: "1px solid #b6e3dc",
+              borderRadius: 99,
+              padding: "6px 14px",
+            }}
+          >
+            <span style={{
+              width: 8, height: 8, borderRadius: "50%",
+              background: "var(--color-brand)",
+              animation: "pulseSoft 2s ease infinite",
+              display: "inline-block",
+            }} />
+            <span style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: "#0b5a54" }}>
+              Akurasi 74,50%
+            </span>
           </div>
-          <a href="#app-section"
-            className="bg-[#0f766e] text-white text-[14px] font-semibold px-[18px] py-2.5 rounded-lg hover:bg-[#0d5c56] transition-colors">
+
+          {/* Tombol Mulai */}
+          <button
+            onClick={() => {
+              const el = document.getElementById("app-section");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            style={mulaiStyle}
+            onMouseEnter={e => { e.currentTarget.style.background = "var(--color-brand-dark)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "var(--color-brand)"; }}
+          >
             Mulai
-          </a>
+          </button>
+
         </div>
       </div>
-    </header>
+    </nav>
   );
 }
