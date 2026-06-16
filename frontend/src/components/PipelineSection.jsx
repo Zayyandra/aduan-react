@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 const STEPS = [
   {
-    num: "01", tag: "Data Source", color: "#2563eb", bg: "#eff6ff", border: "#93c5fd",
-    h: "Google Play Store",
-    p: "Ulasan aplikasi layanan publik pemerintah berbahasa Indonesia — sumber data autentik dari 14 aplikasi pemerintah.",
-    sub: "play store scraper",
+    num: "01", tag: "Data Source", color: "#2563eb", bg: "#eff6ff", border: "#bfdbfe",
+    h: "Play Store",
+    detail: "Google Play Store",
+    p: "21.145 ulasan dari 14 aplikasi layanan publik pemerintah berbahasa Indonesia.",
+    sub: "play-store-scraper",
     icon: (c) => (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <ellipse cx="12" cy="5" rx="9" ry="3"/>
         <path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
         <path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/>
@@ -15,186 +16,220 @@ const STEPS = [
     ),
   },
   {
-    num: "02", tag: "Scraping", color: "#b45309", bg: "#fffbeb", border: "#fcd34d",
-    h: "14 Aplikasi Pemerintah",
-    p: "Mobile JKN, KRL Access, PPDB, PLN Mobile, M-Paspor dan lainnya. Filter review pendek, Inggris, dan duplikat.",
+    num: "02", tag: "Scraping", color: "#b45309", bg: "#fffbeb", border: "#fde68a",
+    h: "Scraping",
+    detail: "14 Aplikasi Pemerintah",
+    p: "Mobile JKN, KRL Access, PPDB, PLN Mobile, M-Paspor. Filter review pendek & duplikat.",
     sub: "google-play-scraper",
     icon: (c) => (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
       </svg>
     ),
   },
   {
-    num: "03", tag: "Preprocessing", color: "#15803d", bg: "#f0fdf4", border: "#86efac",
-    h: "Filter + Label Otomatis",
-    p: "Dedup, filter teks generik, label sentimen otomatis dari rating bintang (★1–2=negatif, ★3=netral, ★4–5=positif).",
-    sub: "rating → sentimen label",
+    num: "03", tag: "Preprocessing", color: "#15803d", bg: "#f0fdf4", border: "#bbf7d0",
+    h: "Preprocessing",
+    detail: "Filter + Label Sentimen",
+    p: "Dedup, filter teks generik. Label sentimen otomatis dari rating bintang (★1–2=negatif, ★3=netral, ★4–5=positif).",
+    sub: "rating → label",
     icon: (c) => (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
       </svg>
     ),
   },
   {
-    num: "04", tag: "Fine-tuning", color: "#7c3aed", bg: "#f5f3ff", border: "#c4b5fd",
-    h: "IndoBERT Fine-tuned",
-    p: "Fine-tune indobert-base-p1 dari HuggingFace. GPU T4 Google Colab, 3 epoch, batch 16, 21.145 data latih.",
-    sub: "indobert-base-p1 · T4 GPU",
+    num: "04", tag: "Fine-tuning", color: "#7c3aed", bg: "#f5f3ff", border: "#ddd6fe",
+    h: "IndoBERT",
+    detail: "Fine-tuned Model",
+    p: "Fine-tune indobert-base-p1. GPU T4 Colab, 3 epoch, batch 16. Akurasi 74,50% pada data uji.",
+    sub: "indobert-base-p1",
     icon: (c) => (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="3"/>
         <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
       </svg>
     ),
   },
   {
-    num: "05", tag: "Deployment", color: "#0f766e", bg: "#f0fdfa", border: "#5eead4",
-    h: "React + FastAPI",
-    p: "Inferensi real-time via FastAPI. Frontend React + Vite + Tailwind. Deploy Vercel (frontend) + HuggingFace Spaces (backend).",
-    sub: "vercel · huggingface spaces",
+    num: "05", tag: "Deployment", color: "#0f766e", bg: "#f0fdfa", border: "#99f6e4",
+    h: "Web App",
+    detail: "React + FastAPI",
+    p: "Inferensi real-time. Frontend Vercel, backend HuggingFace Spaces. Klasifikasi + sentimen sekaligus.",
+    sub: "vercel · hf spaces",
     icon: (c) => (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round">
-        <polyline points="16 18 22 12 16 6"/>
-        <polyline points="8 6 2 12 8 18"/>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <path d="M8 21h8M12 17v4"/>
       </svg>
     ),
   },
 ];
 
-function ZCard({ step, idx }) {
+function StepCard({ step, idx, total }) {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
-  const isLeft = idx % 2 === 0;
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setVis(true); obs.disconnect(); }
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
 
-  const cardStyle = {
-    opacity: vis ? 1 : 0,
-    transform: vis ? "translateX(0)" : `translateX(${isLeft ? -36 : 36}px)`,
-    transition: `opacity 0.55s ${idx * 0.08}s ease, transform 0.55s ${idx * 0.08}s cubic-bezier(0.22,1,0.36,1)`,
-  };
-
-  const nodeStyle = {
-    opacity: vis ? 1 : 0,
-    transform: vis ? "scale(1)" : "scale(0.5)",
-    transition: `opacity 0.4s ${idx * 0.08 + 0.12}s ease, transform 0.4s ${idx * 0.08 + 0.12}s cubic-bezier(0.34,1.56,0.64,1)`,
-  };
-
-  const card = (
+  return (
     <div
-      className="pipe-card"
+      ref={ref}
       style={{
-        ...cardStyle,
-        borderLeft: isLeft ? `4px solid ${step.color}` : undefined,
-        borderRight: !isLeft ? `4px solid ${step.color}` : undefined,
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(28px)",
+        transition: `opacity 0.5s ${idx * 0.1}s ease, transform 0.5s ${idx * 0.1}s cubic-bezier(0.22,1,0.36,1)`,
+        flex: 1, minWidth: 0,
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-        <div style={{ width: 42, height: 42, borderRadius: 12, background: step.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          {step.icon(step.color)}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: step.color, marginBottom: 4 }}>
-            {step.num} · {step.tag}
-          </div>
-          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 15, fontWeight: 700, color: "var(--color-ink)", marginBottom: 6, letterSpacing: "-0.015em" }}>
-            {step.h}
-          </h3>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--color-text)", lineHeight: 1.65 }}>
-            {step.p}
-          </p>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 11.5, fontWeight: 600, color: step.color, marginTop: 8 }}>
-            {step.sub}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div ref={ref} style={{ display: "grid", gridTemplateColumns: "1fr 68px 1fr", alignItems: "center" }}>
-      {isLeft ? card : <div />}
-
-      {/* Node */}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <div
-          style={{
-            ...nodeStyle,
-            width: 40, height: 40, borderRadius: "50%",
-            background: step.color,
-            color: "#fff",
-            fontFamily: "var(--font-display)",
-            fontSize: 14, fontWeight: 800,
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          background: hovered ? step.bg : "#fff",
+          border: `1.5px solid ${hovered ? step.border : "var(--border)"}`,
+          borderTop: `3px solid ${step.color}`,
+          borderRadius: "var(--r-xl)",
+          padding: "20px 18px",
+          height: "100%",
+          cursor: "default",
+          transition: "all 0.22s ease",
+          boxShadow: hovered
+            ? `0 8px 24px rgba(0,0,0,0.07), 0 0 0 3px ${step.color}15`
+            : "var(--shadow-sm)",
+          transform: hovered ? "translateY(-3px)" : "none",
+        }}
+      >
+        {/* Step number + icon */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+          <span style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: ".12em",
+            textTransform: "uppercase", color: step.color,
+            background: step.bg, border: `1px solid ${step.border}`,
+            padding: "3px 8px", borderRadius: 5,
+          }}>
+            {step.num}
+          </span>
+          <div style={{
+            width: 38, height: 38, borderRadius: 10,
+            background: hovered ? "#fff" : step.bg,
             display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: `0 0 0 4px white, 0 0 0 7px ${step.color}35`,
-            zIndex: 2, position: "relative",
-          }}
-        >
-          {idx + 1}
+            transition: "background 0.22s ease",
+          }}>
+            {step.icon(step.color)}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--text-2)", marginBottom: 4 }}>{step.tag}</div>
+        <div style={{ fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 3, letterSpacing: "-.02em" }}>{step.h}</div>
+        <div style={{ fontSize: 11.5, fontWeight: 600, color: step.color, marginBottom: 10 }}>{step.detail}</div>
+        <p style={{ fontSize: 12.5, color: "var(--text)", lineHeight: 1.65, margin: 0 }}>{step.p}</p>
+
+        {/* Sub tag */}
+        <div style={{ marginTop: 12, display: "inline-flex", alignItems: "center", gap: 5,
+          background: "var(--surface-2)", border: "1px solid var(--border)",
+          padding: "3px 9px", borderRadius: 5 }}>
+          <span style={{ width: 4, height: 4, borderRadius: "50%", background: step.color, display: "inline-block" }} />
+          <span style={{ fontSize: 10.5, fontWeight: 600, color: "var(--text-2)" }}>{step.sub}</span>
         </div>
       </div>
-
-      {!isLeft ? card : <div />}
     </div>
   );
 }
 
 export default function PipelineSection() {
-  return (
-    <section id="pipeline" className="zone-soft" style={{ padding: "var(--space-20) 0" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(16px, 4vw, 32px)" }}>
+  const [noteVis, setNoteVis] = useState(false);
+  const noteRef = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setNoteVis(true); obs.disconnect(); }
+    }, { threshold: 0.1 });
+    if (noteRef.current) obs.observe(noteRef.current);
+    return () => obs.disconnect();
+  }, []);
 
-        <div className="text-center" style={{ maxWidth: 560, margin: "0 auto 52px" }}>
-          <div className="reveal badge-brand mb-3" style={{ display: "inline-flex", marginBottom: 12 }}>Arsitektur Sistem</div>
-          <h2 className="reveal" style={{ fontSize: "clamp(26px,3.2vw,38px)", fontWeight: 800, marginBottom: 12, transitionDelay: "0.07s" }}>
+  return (
+    <section id="pipeline" className="zone-soft" style={{ padding: "80px 0" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,32px)" }}>
+
+        {/* Header */}
+        <div style={{ textAlign: "center", maxWidth: 540, margin: "0 auto 52px" }}>
+          <div className="reveal badge-eyebrow">Arsitektur Sistem</div>
+          <h2 className="reveal" style={{ fontSize: "clamp(24px,3vw,36px)", fontWeight: 800, marginBottom: 10, transitionDelay: ".07s" }}>
             Pipeline Klasifikasi
           </h2>
-          <p className="reveal" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--color-text)", lineHeight: 1.7, transitionDelay: "0.14s" }}>
-            Lima tahap dari scraping ulasan Play Store hingga inferensi real-time di web app.
+          <p className="reveal" style={{ fontSize: 14.5, color: "var(--text)", lineHeight: 1.72, transitionDelay: ".14s" }}>
+            Lima tahap membangun sistem klasifikasi aduan layanan publik berbasis NLP.
           </p>
         </div>
 
-        {/* Zigzag */}
+        {/* Horizontal stepper */}
         <div style={{ position: "relative" }}>
-          {/* Center line */}
+          {/* Connector line */}
           <div style={{
-            position: "absolute", left: "50%", top: 20, bottom: 20,
-            width: 2, transform: "translateX(-50%)",
-            background: "linear-gradient(to bottom, transparent, var(--color-border-mid) 8%, var(--color-border-mid) 92%, transparent)",
-            pointerEvents: "none",
+            position: "absolute", top: 30, left: "calc(10% + 20px)", right: "calc(10% + 20px)",
+            height: 2,
+            background: `linear-gradient(to right, #2563eb, #b45309, #15803d, #7c3aed, #0f766e)`,
+            opacity: 0.25, pointerEvents: "none",
+            borderRadius: 99,
           }} />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {STEPS.map((s, i) => <ZCard key={s.num} step={s} idx={i} />)}
+          {/* Step cards */}
+          <div style={{ display: "flex", gap: 12, alignItems: "stretch" }}>
+            {STEPS.map((s, i) => (
+              <StepCard key={s.num} step={s} idx={i} total={STEPS.length} />
+            ))}
           </div>
         </div>
 
-        {/* Metodologis note */}
+        {/* Flow indicator below */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0, margin: "16px 0 36px", opacity: 0.5 }}>
+          {STEPS.map((s, i) => (
+            <div key={s.num} style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: s.color }} />
+              {i < STEPS.length - 1 && (
+                <div style={{ width: 60, height: 1.5, background: `linear-gradient(to right, ${s.color}, ${STEPS[i+1].color})` }} />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Catatan metodologis */}
         <div
-          className="reveal"
+          ref={noteRef}
           style={{
-            marginTop: 40,
-            background: "linear-gradient(135deg, #fffdf0 0%, #fefce8 100%)",
+            background: "linear-gradient(135deg, #fffdf0, #fefce8)",
             border: "1.5px solid #fde68a",
             borderRadius: "var(--r-xl)",
-            padding: "20px 24px",
-            display: "flex", gap: 16, alignItems: "flex-start",
-            transitionDelay: "0.3s",
+            padding: "18px 22px",
+            display: "flex", gap: 14, alignItems: "flex-start",
+            opacity: noteVis ? 1 : 0,
+            transform: noteVis ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 0.5s ease, transform 0.5s ease",
           }}
         >
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "#fef3c7", color: "#b45309", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 18, flexShrink: 0 }}>!</div>
+          <div style={{
+            width: 32, height: 32, borderRadius: 8,
+            background: "#fef3c7", color: "#b45309",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontWeight: 900, fontSize: 16, flexShrink: 0,
+          }}>!</div>
           <div>
-            <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, color: "#92400e", marginBottom: 6 }}>Catatan Metodologis — Transparansi Akurasi</div>
-            <p style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "#78350f", lineHeight: 1.7, margin: 0 }}>
-              Akurasi <strong style={{ fontFamily: "var(--font-display)" }}>74,50%</strong> pada data uji adalah angka jujur dari dataset Play Store tanpa keyword scraping.{" "}
+            <div style={{ fontWeight: 700, fontSize: 13.5, color: "#92400e", marginBottom: 5 }}>
+              Catatan Metodologis — Transparansi Akurasi
+            </div>
+            <p style={{ fontSize: 13, color: "#78350f", lineHeight: 1.72, margin: 0 }}>
+              Akurasi <strong>74,50%</strong> adalah angka jujur dari dataset Play Store tanpa keyword scraping.{" "}
               <em>Keyword-stripped evaluation</em> menunjukkan 73,6% pada 96% test set — model belajar dari konteks teks, bukan menghafal kata kunci.
               Sentimen dilabeli otomatis dari rating bintang (★1–2 negatif, ★3 netral, ★4–5 positif), bukan model terpisah.
             </p>
@@ -202,11 +237,11 @@ export default function PipelineSection() {
         </div>
       </div>
 
+      {/* Mobile: vertical stack */}
       <style>{`
-        @media (max-width: 768px) {
-          #pipeline .zigzag-row { grid-template-columns: 36px 1fr !important; }
-          #pipeline .zigzag-row > div:last-child:not(:nth-child(2)) { display: none !important; }
-          #pipeline .center-line { display: none; }
+        @media (max-width: 900px) {
+          #pipeline .step-row { flex-direction: column !important; }
+          #pipeline .connector-line { display: none !important; }
         }
       `}</style>
     </section>
