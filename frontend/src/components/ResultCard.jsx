@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { KATEGORI, keywordPemicu } from "./categories";
-import { IconClock } from "./icons";
 
 function EmptyState() {
   return (
-    <div className="bg-card border border-dashed border-line rounded-xl p-6 h-full min-h-[320px] flex flex-col items-center justify-center text-center">
-      <IconClock width={44} height={44} className="text-[#94b5b0] mb-4" />
-      <div className="text-[16px] font-semibold text-ink mb-1.5">Belum ada hasil</div>
-      <p className="text-[14.5px] text-[#41514d] max-w-[260px] leading-relaxed">Masukkan teks aduan dan klik "Klasifikasikan" untuk melihat prediksi.</p>
+    <div className="result-empty" style={{ minHeight: 320, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--border-3)" strokeWidth="1.6" style={{ marginBottom: 16 }}>
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" strokeLinecap="round"/>
+      </svg>
+      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 6 }}>Belum ada hasil</div>
+      <p style={{ fontSize: 14, color: "var(--text)", maxWidth: 260, lineHeight: 1.6, margin: 0 }}>
+        Masukkan teks aduan dan klik "Klasifikasikan" untuk melihat prediksi.
+      </p>
     </div>
   );
 }
@@ -15,9 +18,9 @@ function EmptyState() {
 const LOW = 0.6;
 
 const SENTIMEN_CONFIG = {
-  positif: { label: "Positif", bg: "#dcfce7", color: "#15803d", dot: "#22c55e" },
-  negatif: { label: "Negatif", bg: "#fee2e2", color: "#b91c1c", dot: "#ef4444" },
-  netral: { label: "Netral", bg: "#f1f5f9", color: "#475569", dot: "#94a3b8" },
+  positif: { label: "Positif", bg: "var(--success-bg)", color: "var(--success)", dot: "#22c55e" },
+  negatif: { label: "Negatif", bg: "var(--danger-bg)", color: "var(--danger)", dot: "#ef4444" },
+  netral:  { label: "Netral",  bg: "var(--surface-2)", color: "var(--text-2)", dot: "var(--text-3)" },
 };
 
 function SentimenBadge({ sentimen, detail }) {
@@ -25,45 +28,50 @@ function SentimenBadge({ sentimen, detail }) {
   const cfg = SENTIMEN_CONFIG[sentimen] || SENTIMEN_CONFIG.netral;
 
   return (
-    <div className="mb-5">
-      <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-2">Sentimen</div>
-      <div className="flex items-center gap-3 flex-wrap">
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 9 }}>
+        Sentimen
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <button
-          onClick={() => setShowDetail((v) => !v)}
-          className="flex items-center gap-2 rounded-full px-3.5 py-2 text-[14px] font-semibold transition-opacity hover:opacity-80"
-          style={{ background: cfg.bg, color: cfg.color }}
+          onClick={() => setShowDetail(v => !v)}
+          style={{
+            display: "flex", alignItems: "center", gap: 8,
+            borderRadius: 99, padding: "8px 14px", fontSize: 14, fontWeight: 700,
+            background: cfg.bg, color: cfg.color, border: "none", cursor: "pointer",
+          }}
           title="Klik untuk lihat detail"
         >
-          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.dot }} />
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: cfg.dot, flexShrink: 0 }} />
           {cfg.label}
         </button>
-        <span className="text-[12.5px] text-[#41514d] font-medium">
+        <span style={{ fontSize: 12.5, color: "var(--text)", fontWeight: 500 }}>
           +{detail.skor_positif} positif · -{detail.skor_negatif} negatif
         </span>
       </div>
 
       {showDetail && (detail.kata_positif.length > 0 || detail.kata_negatif.length > 0) && (
-        <div className="mt-3 rounded-lg border border-line p-3 flex flex-col gap-2">
+        <div style={{ marginTop: 11, borderRadius: 10, border: "1px solid var(--border)", padding: 12, display: "flex", flexDirection: "column", gap: 8 }}>
           {detail.kata_positif.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <span className="text-[12px] text-[#41514d] w-14 shrink-0">Positif:</span>
-              {detail.kata_positif.map((k) => (
-                <span key={k} className="text-[12px] rounded px-2 py-0.5" style={{ background: "#dcfce7", color: "#15803d" }}>{k}</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+              <span style={{ fontSize: 12, color: "var(--text)", width: 56, flexShrink: 0 }}>Positif:</span>
+              {detail.kata_positif.map(k => (
+                <span key={k} style={{ fontSize: 12, borderRadius: 5, padding: "2px 8px", background: "var(--success-bg)", color: "var(--success)" }}>{k}</span>
               ))}
             </div>
           )}
           {detail.kata_negatif.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <span className="text-[12px] text-[#41514d] w-14 shrink-0">Negatif:</span>
-              {detail.kata_negatif.map((k) => (
-                <span key={k} className="text-[12px] rounded px-2 py-0.5" style={{ background: "#fee2e2", color: "#b91c1c" }}>{k}</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+              <span style={{ fontSize: 12, color: "var(--text)", width: 56, flexShrink: 0 }}>Negatif:</span>
+              {detail.kata_negatif.map(k => (
+                <span key={k} style={{ fontSize: 12, borderRadius: 5, padding: "2px 8px", background: "var(--danger-bg)", color: "var(--danger)" }}>{k}</span>
               ))}
             </div>
           )}
         </div>
       )}
 
-      <p className="text-[12px] text-[#5a7975] mt-2 leading-relaxed">
+      <p style={{ fontSize: 12, color: "var(--text-2)", marginTop: 8, lineHeight: 1.6 }}>
         Dideteksi otomatis berbasis leksikon · Klik badge untuk detail kata
       </p>
     </div>
@@ -74,7 +82,7 @@ export default function ResultCard({ hasil, teksInput }) {
   const [salin, setSalin] = useState(false);
   if (!hasil) return <EmptyState />;
 
-  const meta = KATEGORI[hasil.kategori] || { warna: "#0f766e", desc: "" };
+  const meta = KATEGORI[hasil.kategori] || { warna: "var(--brand)", desc: "" };
   const entries = Object.entries(hasil.semua_skor).sort((a, b) => b[1] - a[1]);
   const ragu = hasil.confidence < LOW;
   const pemicu = keywordPemicu(teksInput, hasil.kategori);
@@ -90,67 +98,73 @@ export default function ResultCard({ hasil, teksInput }) {
   };
 
   return (
-    <div className="bg-card border border-line rounded-xl p-6">
+    <div className="result-card">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4 pb-5 border-b border-line mb-5">
-        <div className="min-w-0">
-          <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-1">Hasil Prediksi</div>
-          <div className="font-extrabold text-3xl capitalize leading-none" style={{ color: meta.warna }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, paddingBottom: 20, borderBottom: "1px solid var(--border)", marginBottom: 20 }}>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 5 }}>
+            Hasil Prediksi
+          </div>
+          <div style={{ fontWeight: 800, fontSize: 28, textTransform: "capitalize", lineHeight: 1, color: meta.warna }}>
             {hasil.kategori}
           </div>
-          <div className="text-[14px] text-[#41514d] mt-2">
+          <div style={{ fontSize: 14, color: "var(--text)", marginTop: 8 }}>
             {(hasil.confidence * 100).toFixed(1)}% yakin · {meta.desc}
           </div>
         </div>
         <button
           onClick={doSalin}
-          className="text-[13px] border rounded-md px-3.5 py-2 transition-colors shrink-0 font-medium"
-          style={{ borderColor: salin ? meta.warna : "#e2e8e5", color: salin ? meta.warna : "#41514d" }}
+          style={{
+            fontSize: 13, border: `1.5px solid ${salin ? meta.warna : "var(--border)"}`,
+            borderRadius: 8, padding: "8px 14px", background: "transparent",
+            color: salin ? meta.warna : "var(--text)",
+            cursor: "pointer", flexShrink: 0, fontWeight: 600, transition: "all 0.15s ease",
+          }}
         >
           {salin ? "Tersalin!" : "Salin"}
         </button>
       </div>
 
-      {/* Sentimen */}
       {hasil.sentimen && hasil.sentimen_detail && (
         <SentimenBadge sentimen={hasil.sentimen} detail={hasil.sentimen_detail} />
       )}
 
-      {/* Warning */}
       {ragu && (
-        <div className="mb-5 flex gap-3 items-start bg-mint/40 border border-teal/30 rounded-lg p-3.5">
-          <span className="text-teal font-bold leading-none mt-0.5 text-[18px]">!</span>
-          <p className="text-[14px] text-ink leading-relaxed">
-            <span className="font-semibold">Keyakinan rendah.</span> Teks mungkin di luar 6 kategori atau ambigu. Sebaiknya diverifikasi manual.
+        <div style={{ marginBottom: 20, display: "flex", gap: 11, alignItems: "flex-start", background: "var(--brand-pale)", border: "1px solid var(--brand-border)", borderRadius: 10, padding: 14 }}>
+          <span style={{ color: "var(--brand)", fontWeight: 800, lineHeight: 1, marginTop: 1, fontSize: 18 }}>!</span>
+          <p style={{ fontSize: 14, color: "var(--ink)", lineHeight: 1.6, margin: 0 }}>
+            <strong style={{ fontWeight: 700 }}>Keyakinan rendah.</strong> Teks mungkin di luar 6 kategori atau ambigu. Sebaiknya diverifikasi manual.
           </p>
         </div>
       )}
 
-      {/* Kata kunci */}
       {pemicu.length > 0 && (
-        <div className="mb-5">
-          <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-2">Kata kunci terdeteksi</div>
-          <div className="flex flex-wrap gap-2">
-            {pemicu.map((k) => (
-              <span key={k} className="text-[13px] rounded-md px-2.5 py-1 font-medium" style={{ background: meta.warna + "1a", color: meta.warna }}>{k}</span>
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 9 }}>
+            Kata kunci terdeteksi
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {pemicu.map(k => (
+              <span key={k} style={{ fontSize: 13, borderRadius: 7, padding: "5px 11px", fontWeight: 600, background: meta.warna + "1a", color: meta.warna }}>{k}</span>
             ))}
           </div>
         </div>
       )}
 
-      {/* Distribusi probabilitas */}
-      <div className="text-[12.5px] uppercase tracking-[0.1em] text-[#3a4a46] font-semibold mb-3">Distribusi probabilitas</div>
-      <div className="flex flex-col gap-3">
+      <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 13 }}>
+        Distribusi probabilitas
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {entries.map(([label, skor]) => {
           const m = KATEGORI[label] || { warna: "#999" };
           const top = label === hasil.kategori;
           return (
-            <div key={label} className="grid grid-cols-[110px_1fr_56px] items-center gap-3">
-              <span className={`text-[13.5px] capitalize ${top ? "text-ink font-semibold" : "text-[#516662]"}`}>{label}</span>
-              <div className="h-2.5 bg-[#eef4f2] rounded-full overflow-hidden">
-                <div className="h-full rounded-full transition-[width] duration-700 ease-out" style={{ width: `${skor * 100}%`, background: m.warna, opacity: top ? 1 : 0.4 }} />
+            <div key={label} style={{ display: "grid", gridTemplateColumns: "110px 1fr 56px", alignItems: "center", gap: 12 }}>
+              <span style={{ fontSize: 13.5, textTransform: "capitalize", color: top ? "var(--ink)" : "var(--text-2)", fontWeight: top ? 700 : 400 }}>{label}</span>
+              <div style={{ height: 10, background: "var(--surface-3)", borderRadius: 99, overflow: "hidden" }}>
+                <div className="bar-animate" style={{ height: "100%", borderRadius: 99, width: `${skor * 100}%`, background: m.warna, opacity: top ? 1 : 0.4, transition: "width 0.7s ease-out" }} />
               </div>
-              <span className="text-[12.5px] text-[#516662] text-right font-mono">{(skor * 100).toFixed(1)}%</span>
+              <span style={{ fontSize: 12.5, color: "var(--text-2)", textAlign: "right" }}>{(skor * 100).toFixed(1)}%</span>
             </div>
           );
         })}

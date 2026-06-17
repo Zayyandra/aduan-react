@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const CONTOH = [
   "Aplikasi Mobile JKN error terus, tidak bisa cek status BPJS",
@@ -6,48 +6,83 @@ const CONTOH = [
   "KRL selalu telat dan penuh sesak setiap pagi hari kerja",
 ];
 
+const MIN_LEN = 8;
+
 export default function InputPanel({ onSubmit, loading }) {
   const [teks, setTeks] = useState("");
+  const [shake, setShake] = useState(false);
+  const taRef = useRef(null);
+
+  const tooShort = teks.trim().length > 0 && teks.trim().length < MIN_LEN;
+  const empty = teks.trim().length === 0;
 
   const submit = () => {
-    if (!teks.trim()) { alert("Masukkan teks aduan dulu."); return; }
+    if (empty || tooShort) {
+      setShake(true);
+      taRef.current?.focus();
+      setTimeout(() => setShake(false), 420);
+      return;
+    }
     onSubmit(teks.trim());
   };
   const onKey = (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submit(); };
 
   return (
-    <div className="bg-white border border-[#d4e5e2] rounded-2xl p-6 shadow-sm">
+    <div className="card" style={{ padding: 24 }}>
       {/* Label */}
-      <div className="flex items-center justify-between mb-3">
-        <label className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#3a4a46]">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <label style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--ink-3)" }}>
           Teks Aduan
         </label>
-        <span className="text-[12.5px] text-[#41514d] font-mono font-medium bg-[#f4faf9] px-2.5 py-1 rounded border border-[#d4e5e2]">
+        <span style={{
+          fontSize: 12, fontWeight: 600,
+          color: tooShort ? "var(--danger)" : "var(--text-2)",
+          background: tooShort ? "var(--danger-bg)" : "var(--surface-2)",
+          padding: "4px 9px", borderRadius: 6,
+          border: `1px solid ${tooShort ? "#fecaca" : "var(--border)"}`,
+        }}>
           {teks.length} karakter
         </span>
       </div>
 
       {/* Textarea */}
       <textarea
+        ref={taRef}
         value={teks}
         onChange={(e) => setTeks(e.target.value)}
         onKeyDown={onKey}
         placeholder="Ketik atau tempel teks aduan layanan publik di sini…"
         rows={6}
-        className="w-full resize-y border border-[#d4e5e2] rounded-xl p-4 text-[15.5px] bg-[#f4faf9] text-[#0f1f1d] leading-relaxed outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/15 transition placeholder-[#6b827d]"
+        className="analyze-textarea"
+        style={{
+          borderColor: shake ? "var(--danger)" : undefined,
+          animation: shake ? "shakeX 0.4s ease" : undefined,
+        }}
       />
+      {tooShort && (
+        <div style={{ fontSize: 12, color: "var(--danger)", marginTop: 6, fontWeight: 500 }}>
+          Teks terlalu pendek — minimal {MIN_LEN} karakter agar model dapat menganalisis konteks.
+        </div>
+      )}
 
       {/* Contoh */}
-      <div className="mt-4">
-        <div className="text-[13px] text-[#3a4a46] font-semibold mb-2 uppercase tracking-[0.06em]">
-          Contoh aduan:
+      <div style={{ marginTop: 18 }}>
+        <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--ink-3)", marginBottom: 9, textTransform: "uppercase", letterSpacing: ".06em" }}>
+          Contoh aduan
         </div>
-        <div className="flex flex-col gap-1.5">
+        <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
           {CONTOH.map((c, i) => (
             <button
               key={i}
               onClick={() => setTeks(c)}
-              className="text-left text-[13px] text-[#0f766e] bg-[#f0fdfa] hover:bg-[#ccefeb] border border-[#ccefeb] rounded-lg px-3 py-2 transition-colors leading-snug"
+              style={{
+                textAlign: "left", fontSize: 13, color: "var(--brand)",
+                background: "var(--brand-pale)", border: "1px solid var(--brand-border)",
+                borderRadius: 9, padding: "9px 12px", cursor: "pointer",
+                lineHeight: 1.45, transition: "background 0.15s ease",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = "var(--brand-muted)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "var(--brand-pale)"; }}
             >
               "{c}"
             </button>
@@ -59,11 +94,23 @@ export default function InputPanel({ onSubmit, loading }) {
       <button
         onClick={submit}
         disabled={loading}
-        className="mt-5 w-full bg-[#0f766e] hover:bg-[#0d5c56] disabled:opacity-50 text-white rounded-xl py-3.5 text-[15px] font-semibold transition-colors flex items-center justify-center gap-2.5 shadow-md shadow-[#0f766e]/20"
+        style={{
+          marginTop: 20, width: "100%",
+          background: empty ? "var(--border-2)" : "var(--brand)",
+          color: "#fff", border: "none", borderRadius: "var(--r-lg)",
+          padding: "13px 0", fontSize: 15, fontWeight: 700,
+          cursor: loading ? "default" : "pointer",
+          opacity: loading ? 0.6 : 1,
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 9,
+          boxShadow: empty ? "none" : "0 4px 14px -4px rgba(15,118,110,0.4)",
+          transition: "all 0.18s ease",
+        }}
+        onMouseEnter={e => { if (!empty && !loading) e.currentTarget.style.background = "var(--brand-dark)"; }}
+        onMouseLeave={e => { if (!empty && !loading) e.currentTarget.style.background = "var(--brand)"; }}
       >
         {loading ? (
           <>
-            <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span style={{ width: 16, height: 16, border: "2px solid rgba(255,255,255,.4)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block" }} className="animate-spin" />
             Menganalisis…
           </>
         ) : (
@@ -76,9 +123,17 @@ export default function InputPanel({ onSubmit, loading }) {
           </>
         )}
       </button>
-      <div className="mt-3 text-[12.5px] text-[#5a7975] font-medium text-center">
+      <div style={{ marginTop: 11, fontSize: 12, color: "var(--text-2)", textAlign: "center", fontWeight: 500 }}>
         Ctrl + Enter untuk klasifikasi cepat
       </div>
+
+      <style>{`
+        @keyframes shakeX {
+          0%, 100% { transform: translateX(0); }
+          20%, 60% { transform: translateX(-5px); }
+          40%, 80% { transform: translateX(5px); }
+        }
+      `}</style>
     </div>
   );
 }

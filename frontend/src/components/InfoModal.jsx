@@ -25,19 +25,16 @@ const FAQ = [
 function Akordeon({ data }) {
   const [buka, setBuka] = useState(null);
   return (
-    <div className="flex flex-col gap-2">
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       {data.map(([q, a], i) => (
-        <div key={i} className="border border-[#d4e5e2] rounded-xl overflow-hidden">
-          <button
-            onClick={() => setBuka(buka === i ? null : i)}
-            className="w-full flex justify-between gap-3 px-4 py-3.5 text-left hover:bg-[#f4faf9] transition-colors"
-          >
-            <span className="text-sm font-semibold text-[#0f1f1d]">{q}</span>
-            <span className="text-[#0f766e] shrink-0 font-bold text-lg leading-none">{buka === i ? "−" : "+"}</span>
+        <div key={i} className={`faq-item${buka === i ? " open" : ""}`}>
+          <button onClick={() => setBuka(buka === i ? null : i)} className="faq-q" style={{ width: "100%", border: "none", background: "transparent" }}>
+            <span style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)" }}>{q}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
-          {buka === i && (
-            <p className="px-4 pb-4 pt-1 text-sm text-[#5a7975] leading-relaxed border-t border-[#d4e5e2]">{a}</p>
-          )}
+          <div className="faq-a">{a}</div>
         </div>
       ))}
     </div>
@@ -49,56 +46,64 @@ export default function InfoModal({ jenis, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0f1f1d]/50 backdrop-blur-sm"
+      style={{
+        position: "fixed", inset: 0, zIndex: 200,
+        display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
+        background: "rgba(12,30,28,0.5)", backdropFilter: "blur(4px)",
+      }}
       onClick={onClose}
     >
       <div
-        className="bg-white border border-[#d4e5e2] rounded-2xl max-w-xl w-full max-h-[88vh] overflow-y-auto shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "#fff", border: "1px solid var(--border)", borderRadius: 20,
+          maxWidth: 560, width: "100%", maxHeight: "88vh", overflowY: "auto",
+          boxShadow: "0 24px 64px rgba(0,0,0,0.25)",
+        }}
+        onClick={e => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-white border-b border-[#d4e5e2] px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg bg-[#e6f7f5] flex items-center justify-center">
-              <span className="text-[#0f766e] font-bold text-sm">
+        <div style={{ position: "sticky", top: 0, background: "#fff", borderBottom: "1px solid var(--border)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", borderRadius: "20px 20px 0 0" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ width: 30, height: 30, borderRadius: 9, background: "var(--brand-pale)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ color: "var(--brand)", fontWeight: 800, fontSize: 14 }}>
                 {jenis === "cara" ? "?" : jenis === "faq" ? "≡" : "i"}
               </span>
             </div>
-            <h3 className="font-bold text-lg text-[#0f1f1d]">{judul}</h3>
+            <h3 style={{ fontWeight: 800, fontSize: 18, color: "var(--ink)" }}>{judul}</h3>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#5a7975] hover:text-[#0f1f1d] hover:bg-[#f4faf9] transition-colors text-xl font-light"
-          >
-            ×
-          </button>
+            style={{
+              width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center",
+              borderRadius: 8, color: "var(--text-2)", background: "transparent", border: "none",
+              cursor: "pointer", fontSize: 22, fontWeight: 300,
+            }}
+          >×</button>
         </div>
 
-        <div className="p-6">
+        <div style={{ padding: 24 }}>
           {jenis === "cara" && (
-            <div className="space-y-6">
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#5a7975] mb-3">Tiga Langkah</div>
-                <div className="flex flex-col gap-3">
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--text-2)", marginBottom: 12 }}>Tiga Langkah</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
                   {CARA.map(([j, d], i) => (
-                    <div key={j} className="flex gap-4 border border-[#d4e5e2] rounded-xl p-4 bg-[#f4faf9]">
-                      <div className="w-7 h-7 rounded-lg bg-[#0f766e] text-white flex items-center justify-center font-bold text-xs shrink-0">
-                        {i + 1}
-                      </div>
+                    <div key={j} style={{ display: "flex", gap: 14, border: "1px solid var(--border)", borderRadius: 12, padding: 14, background: "var(--surface-2)" }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 9, background: "var(--brand)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 12, flexShrink: 0 }}>{i + 1}</div>
                       <div>
-                        <div className="font-semibold text-[#0f1f1d] text-sm mb-1">{j}</div>
-                        <p className="text-sm text-[#5a7975] leading-relaxed">{d}</p>
+                        <div style={{ fontWeight: 700, color: "var(--ink)", fontSize: 14, marginBottom: 3 }}>{j}</div>
+                        <p style={{ fontSize: 13.5, color: "var(--text)", lineHeight: 1.6, margin: 0 }}>{d}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
               <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#5a7975] mb-3">Keunggulan</div>
-                <div className="flex flex-col gap-3">
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--text-2)", marginBottom: 12 }}>Keunggulan</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
                   {UNGGUL.map(([j, d]) => (
-                    <div key={j} className="border border-[#d4e5e2] rounded-xl p-4">
-                      <div className="font-semibold text-[#0f1f1d] text-sm mb-1">✓ {j}</div>
-                      <p className="text-sm text-[#5a7975] leading-relaxed">{d}</p>
+                    <div key={j} style={{ border: "1px solid var(--border)", borderRadius: 12, padding: 14 }}>
+                      <div style={{ fontWeight: 700, color: "var(--ink)", fontSize: 14, marginBottom: 3 }}>✓ {j}</div>
+                      <p style={{ fontSize: 13.5, color: "var(--text)", lineHeight: 1.6, margin: 0 }}>{d}</p>
                     </div>
                   ))}
                 </div>
@@ -109,35 +114,34 @@ export default function InfoModal({ jenis, onClose }) {
           {jenis === "faq" && <Akordeon data={FAQ} />}
 
           {jenis === "tentang" && (
-            <div className="space-y-5">
-              <p className="text-sm text-[#5a7975] leading-relaxed">
+            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+              <p style={{ fontSize: 13.5, color: "var(--text)", lineHeight: 1.7 }}>
                 Sistem klasifikasi ulasan layanan publik berbasis NLP yang mengelompokkan ulasan ke 6 kategori menggunakan IndoBERT fine-tuned dari data Google Play Store, dikembangkan untuk Praktikum Natural Language Processing.
               </p>
-              <div className="border border-[#d4e5e2] rounded-xl p-4 bg-[#f4faf9]">
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#5a7975] mb-3">Informasi Akademik</div>
-                <ul className="text-sm text-[#0f1f1d] space-y-1.5">
-                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Institusi</span> Politeknik Caltex Riau</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Prodi</span> Teknik Informatika</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Kelas</span> 3 TIF · Kelompok 3</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">TA</span> 2025/2026</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Dataset</span> 21.145 ulasan Play Store</li>
-                  <li className="flex gap-2"><span className="text-[#5a7975] w-20 shrink-0">Akurasi</span> 74,50% (macro-F1 72,78%)</li>
+              <div style={{ border: "1px solid var(--border)", borderRadius: 12, padding: 16, background: "var(--surface-2)" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--text-2)", marginBottom: 12 }}>Informasi Akademik</div>
+                <ul style={{ fontSize: 13.5, color: "var(--ink)", display: "flex", flexDirection: "column", gap: 7, listStyle: "none" }}>
+                  {[["Institusi", "Politeknik Caltex Riau"], ["Prodi", "Teknik Informatika"], ["Kelas", "3 TIF · Kelompok 3"], ["TA", "2025/2026"], ["Dataset", "21.145 ulasan Play Store"], ["Akurasi", "74,50% (macro-F1 72,78%)"]].map(([k, v]) => (
+                    <li key={k} style={{ display: "flex", gap: 8 }}>
+                      <span style={{ color: "var(--text-2)", width: 78, flexShrink: 0 }}>{k}</span> {v}
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <div className="border border-[#d4e5e2] rounded-xl p-4">
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#5a7975] mb-3">Anggota Tim</div>
-                <ul className="text-sm text-[#0f1f1d] space-y-1.5">
-                  {["Dion", "Muhammad Zidane", "Zayyandra Rajel Ahsan"].map((n) => (
-                    <li key={n} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#0f766e]" />
+              <div style={{ border: "1px solid var(--border)", borderRadius: 12, padding: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--text-2)", marginBottom: 12 }}>Anggota Tim</div>
+                <ul style={{ fontSize: 13.5, color: "var(--ink)", display: "flex", flexDirection: "column", gap: 7, listStyle: "none" }}>
+                  {["Dion", "Muhammad Zidane", "Zayyandra Rajel Ahsan"].map(n => (
+                    <li key={n} style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--brand)" }} />
                       {n}
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="bg-[#fffbeb] border border-[#fde68a] rounded-xl p-4">
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#92400e] mb-2">Bukan Sistem Resmi</div>
-                <p className="text-[12px] text-[#78350f] leading-relaxed">
+              <div style={{ background: "var(--warning-bg)", border: "1px solid #fde68a", borderRadius: 12, padding: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "#92400e", marginBottom: 8 }}>Bukan Sistem Resmi</div>
+                <p style={{ fontSize: 12.5, color: "#78350f", lineHeight: 1.6, margin: 0 }}>
                   Ini adalah prototipe akademik, bukan pengganti SP4N-LAPOR! atau sistem pengaduan resmi pemerintah.
                 </p>
               </div>
