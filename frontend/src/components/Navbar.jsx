@@ -95,7 +95,7 @@ export default function Navbar({ onModal }) {
               display: "inline-block",
             }} />
             <span style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: "#0b5a54" }}>
-              Akurasi 74,50%
+              Akurasi 74,42%
             </span>
           </div>
 
