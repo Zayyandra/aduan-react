@@ -79,8 +79,8 @@ function StatCard({ n, l, l2, delay = 0 }) {
 export default function HeroSection({ onStart }) {
   const stats = [
     { n: "21.145",  l: "Ulasan Play Store" },
-    { n: "74,50%",  l: "Akurasi IndoBERT" },
-    { n: "72,78%",  l: "Macro-F1 Score" },
+    { n: "74,42%",  l: "Akurasi IndoBERT" },
+    { n: "73,46%",  l: "Macro-F1 Score" },
     { n: "6",       l: "Kategori layanan" },
   ];
 
