@@ -118,7 +118,7 @@ export default function HeroSection({ onStart }) {
             style={{ transitionDelay: "0.08s" }}
           >
             Klasifikasi Ulasan<br />
-            <span className="text-[#0f766e]">Layanan Pemerintah</span> Otomatis
+            <span className="text-[#0f766e]">Layanan Pemerintah</span>
           </h1>
 
           {/* lead */}
