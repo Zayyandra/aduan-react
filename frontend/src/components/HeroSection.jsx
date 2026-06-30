@@ -117,8 +117,8 @@ export default function HeroSection({ onStart }) {
             className="reveal text-[#0f1f1d] text-[40px] md:text-[53px] leading-[1.06] tracking-[-0.025em] font-extrabold mb-5"
             style={{ transitionDelay: "0.08s" }}
           >
-            Klasifikasi Aduan<br />
-            <span className="text-[#0f766e]">Layanan Publik</span> Otomatis
+            Klasifikasi Ulasan<br />
+            <span className="text-[#0f766e]">Layanan Pemerintah</span> Otomatis
           </h1>
 
           {/* lead */}
